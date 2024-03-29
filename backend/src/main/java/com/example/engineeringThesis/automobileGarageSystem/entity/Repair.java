@@ -15,12 +15,34 @@ public class Repair {
     private String title;
     @Column(name = "Data_naprawy")
     private String date;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "car_id")
+    private Car car;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "worker_id")
+    private Worker worker;
 
     public Repair() {}
 
     public Repair(String title, String date) {
         this.title = title;
         this.date = date;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public void setWorker(Worker worker) {
+        this.worker = worker;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
     }
 
     public int getId() {
@@ -48,7 +70,7 @@ public class Repair {
     }
 
     @Override
-    public String toString() {
+public String                                       toString() {
         return "Repair{" +
                 "id=" + id +
                 ", title='" + title + '\'' +

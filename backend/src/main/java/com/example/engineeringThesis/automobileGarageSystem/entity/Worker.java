@@ -2,6 +2,8 @@ package com.example.engineeringThesis.automobileGarageSystem.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Pracownicy")
 public class Worker {
@@ -19,9 +21,10 @@ public class Worker {
     private int payRate ;
     @Column(name = "Data_zatrudnienia")
     private String hireDate;
-
     @Column (name = "Kontakt")
     private String phoneNumber;
+    @OneToMany(mappedBy = "worker", cascade = {CascadeType.ALL})
+    private List<Repair> repairs;
 
     public Worker() {
 
@@ -34,6 +37,14 @@ public class Worker {
         this.payRate = payRate;
         this.hireDate = hireDate;
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<Repair> getRepairs() {
+        return repairs;
+    }
+
+    public void setRepairs(List<Repair> repairs) {
+        this.repairs = repairs;
     }
 
     public int getId() {

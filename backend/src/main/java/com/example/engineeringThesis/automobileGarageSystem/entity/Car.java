@@ -2,6 +2,8 @@ package com.example.engineeringThesis.automobileGarageSystem.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Samochod")
 public class Car {
@@ -20,6 +22,11 @@ public class Car {
     private boolean status;
     @Column(name = "Nr_rejestracyjny")
     private String registracion;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "client_id")
+    private Client client;
+    @OneToMany(mappedBy = "car", cascade = {CascadeType.ALL})
+    private List<Repair> repairs;
 
     public Car() {
 
@@ -31,6 +38,22 @@ public class Car {
         this.model = model;
         this.status = status;
         this.registracion = registracion;
+    }
+
+    public List<Repair> getRepairs() {
+        return repairs;
+    }
+
+    public void setRepairs(List<Repair> repairs) {
+        this.repairs = repairs;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public int getId() {

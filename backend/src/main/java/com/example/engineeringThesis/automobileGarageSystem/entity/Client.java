@@ -2,6 +2,9 @@ package com.example.engineeringThesis.automobileGarageSystem.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Klient")
 public class Client {
@@ -15,6 +18,8 @@ public class Client {
     private String lastName;
     @Column(name = "Numer_telefonu")
     private String phoneNumber;
+    @OneToMany(mappedBy = "client", cascade = {CascadeType.ALL})
+    private List<Car> cars;
 
     public Client() {
 
@@ -24,6 +29,14 @@ public class Client {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 
     public int getId() {
@@ -66,5 +79,14 @@ public class Client {
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
+    }
+
+    public void add(Car tempCar) {
+        if (cars == null) {
+            cars = new ArrayList<>();
+        }
+
+        cars.add(tempCar);
+        tempCar.setClient(this);
     }
 }

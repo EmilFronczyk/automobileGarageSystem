@@ -24,9 +24,19 @@ public class AutomobileGarageSystemApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(CarDAO carDAO, ClientDAO clientDAO, WorkerDAO workerDAO, RepairDAO repairDAO, PartsDAO partsDAO) {
 		return runner -> {
-			//createTables(carDAO, clientDAO, workerDAO, repairDAO, partsDAO);
-			readTables(carDAO, clientDAO, workerDAO, repairDAO, partsDAO);
+			createTables(carDAO, clientDAO, workerDAO, repairDAO, partsDAO);
+			//readTables(carDAO, clientDAO, workerDAO, repairDAO, partsDAO);
+			//createClientWithCars(carDAO,clientDAO);
 		};
+	}
+
+	private void createClientWithCars(CarDAO carDAO, ClientDAO clientDAO) {
+		Client tmpClient1 = new Client("Beata", "Dziewulska", "456741589");
+		Car tmpCar1 = new Car("JTLZE4FE7A1116475", "Audi", "Q5", true, "WY45678");
+		Car tmpCar2 = new Car("WBA3A5G59ENP31624", "Range Rover", "Discovery", true, "WPl90876");
+		tmpClient1.add(tmpCar1);
+		tmpClient1.add(tmpCar2);
+		clientDAO.save(tmpClient1);
 	}
 
 	private void readTables(CarDAO carDAO, ClientDAO clientDAO, WorkerDAO workerDAO, RepairDAO repairDAO, PartsDAO partsDAO) {
@@ -113,6 +123,7 @@ public class AutomobileGarageSystemApplication {
 			repairDAO.save(repair);
 			System.out.println("Repair "+repair.toString() + " saved into database");
 		}
+
 	}
 
 }

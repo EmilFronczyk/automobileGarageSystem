@@ -1,14 +1,23 @@
 package com.example.engineeringThesis.automobileGarageSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "Czesci")
+@Getter
+@Setter
 public class Parts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Setter(AccessLevel.NONE)
     private int id;
     @Column(name = "Nr_katalogowy")
     private String catalogNumber;
@@ -19,6 +28,9 @@ public class Parts {
     @Column(name = "Cena")
     private int price;
 
+    @OneToMany(mappedBy = "part")
+    List<PartsInRepair> partsUsed;
+
     public Parts() {}
 
     public Parts(String catalogNumber, int amount, int price, String partName) {
@@ -28,43 +40,6 @@ public class Parts {
         this.partName = partName;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCatalogNumber() {
-        return catalogNumber;
-    }
-    public String getPartName() {
-        return partName;
-    }
-
-    public void setCatalogNumber(String catalogNumber) {
-        this.catalogNumber = catalogNumber;
-    }
-    public void setPartName(String partName) {
-        this.partName = partName;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
 
     @Override
     public String toString() {

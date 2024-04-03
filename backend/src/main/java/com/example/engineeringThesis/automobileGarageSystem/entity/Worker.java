@@ -1,15 +1,21 @@
 package com.example.engineeringThesis.automobileGarageSystem.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "Pracownicy")
+@Getter
+@Setter
 public class Worker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Setter(AccessLevel.NONE)
     private int id;
     @Column(name = "Imie")
     private String firstName;
@@ -39,69 +45,7 @@ public class Worker {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Repair> getRepairs() {
-        return repairs;
-    }
 
-    public void setRepairs(List<Repair> repairs) {
-        this.repairs = repairs;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public int getPayRate() {
-        return payRate;
-    }
-
-    public void setPayRate(int payRate) {
-        this.payRate = payRate;
-    }
-
-    public String getHireDate() {
-        return hireDate;
-    }
-
-    public void setHireDate(String hireDate) {
-        this.hireDate = hireDate;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     @Override
     public String toString() {

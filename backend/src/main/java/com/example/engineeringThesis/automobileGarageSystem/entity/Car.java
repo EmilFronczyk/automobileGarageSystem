@@ -1,16 +1,22 @@
 package com.example.engineeringThesis.automobileGarageSystem.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "Samochod")
+@Getter
+@Setter
 public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Setter(AccessLevel.NONE)
     private int id;
     @Column(name = "Numer_VIN")
     private String nr_vin;
@@ -21,9 +27,9 @@ public class Car {
     @Column(name = "Status_naprawy")
     private boolean status;
     @Column(name = "Nr_rejestracyjny")
-    private String registracion;
+    private String registration;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "id_klienta")
     private Client client;
     @OneToMany(mappedBy = "car", cascade = {CascadeType.ALL})
     private List<Repair> repairs;
@@ -37,72 +43,9 @@ public class Car {
         this.mark = mark;
         this.model = model;
         this.status = status;
-        this.registracion = registracion;
+        this.registration = registracion;
     }
 
-    public List<Repair> getRepairs() {
-        return repairs;
-    }
-
-    public void setRepairs(List<Repair> repairs) {
-        this.repairs = repairs;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNr_vin() {
-        return nr_vin;
-    }
-
-    public void setNr_vin(String nr_vin) {
-        this.nr_vin = nr_vin;
-    }
-
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public String getRegistracion() {
-        return registracion;
-    }
-
-    public void setRegistracion(String registracion) {
-        this.registracion = registracion;
-    }
 
     @Override
     public String toString() {
@@ -112,7 +55,7 @@ public class Car {
                 ", mark='" + mark + '\'' +
                 ", model='" + model + '\'' +
                 ", status=" + status +
-                ", registracion='" + registracion + '\'' +
+                ", registracion='" + registration + '\'' +
                 '}';
     }
 }

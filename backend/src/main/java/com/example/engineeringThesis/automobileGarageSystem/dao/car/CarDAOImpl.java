@@ -1,6 +1,8 @@
 package com.example.engineeringThesis.automobileGarageSystem.dao.car;
 
+import com.example.engineeringThesis.automobileGarageSystem.dto.CarDTO;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Car;
+import com.example.engineeringThesis.automobileGarageSystem.mapper.CarMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,7 @@ import java.util.List;
 @Repository
 public class CarDAOImpl implements CarDAO {
     //define entity manager
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     public CarDAOImpl(EntityManager entityManager) {
@@ -24,6 +26,12 @@ public class CarDAOImpl implements CarDAO {
     public void save(Car theCar) {
         entityManager.persist(theCar);
     }
+
+//    @Override
+//    public CarDTO findById(Integer id) {
+//        Car car =  entityManager.find(Car.class, id);
+//        return CarMapper.INSTANCE.carToCarDTO(car);
+//    }
 
     @Override
     public Car findById(Integer id) {

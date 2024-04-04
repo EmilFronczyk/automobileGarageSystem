@@ -1,5 +1,6 @@
 package com.example.engineeringThesis.automobileGarageSystem.dao.car;
 
+import com.example.engineeringThesis.automobileGarageSystem.dto.CarDTO;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Car;
 
 import java.util.List;

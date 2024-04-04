@@ -11,4 +11,6 @@ public class RepairDTO {
     private String model;
     private String registration;
     private String status;
+    private String date;
+    private String title;
 }

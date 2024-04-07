@@ -4,10 +4,7 @@ import com.example.engineeringThesis.automobileGarageSystem.dto.CarDTO;
 import com.example.engineeringThesis.automobileGarageSystem.service.car.CarService;
 import com.example.engineeringThesis.automobileGarageSystem.service.car.CarServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cars")
@@ -23,6 +20,11 @@ public class CarController {
     @GetMapping("/{id}")
     public CarDTO getCarById(@PathVariable Integer id) {
         return carService.getCarById(id);
+    }
+
+    @PostMapping()
+    public CarDTO addCar(@RequestBody CarDTO carDTO) {
+        return carService.addNewCar(carDTO);
     }
 
 }

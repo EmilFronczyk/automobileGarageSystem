@@ -9,4 +9,5 @@ public interface ClientDAO {
     List<Client> findAll();
     void update(Client theClient);
     void deleteById(Integer id);
+    Client findClientByName(String name);
 }

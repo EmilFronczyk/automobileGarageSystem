@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -57,5 +58,14 @@ public class Car {
                 ", status=" + status +
                 ", registracion='" + registration + '\'' +
                 '}';
+    }
+
+    public void addRepair(Repair tmpRepair) {
+        if (repairs == null) {
+            repairs = new ArrayList<>();
+        }
+
+        repairs.add(tmpRepair);
+        tmpRepair.setCar(this);
     }
 }

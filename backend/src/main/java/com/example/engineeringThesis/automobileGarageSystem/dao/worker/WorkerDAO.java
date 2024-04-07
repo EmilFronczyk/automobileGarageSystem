@@ -9,4 +9,5 @@ public interface WorkerDAO {
     List<Worker> findAll();
     void update(Worker theWorker);
     void delete(Integer id);
+    Worker findWorkerByName(String name);
 }

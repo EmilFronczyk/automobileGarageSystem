@@ -26,8 +26,20 @@ public class AutomobileGarageSystemApplication {
 		return runner -> {
 			createTables(carDAO, clientDAO, workerDAO, repairDAO, partsDAO);
 			//readTables(carDAO, clientDAO, workerDAO, repairDAO, partsDAO);
-			//createClientWithCars(carDAO,clientDAO);
+			createClientWithCars(carDAO,clientDAO);
+			createCarsAndWorkersWithRepairs(carDAO, clientDAO, workerDAO, repairDAO);
 		};
+	}
+
+	private void createCarsAndWorkersWithRepairs(CarDAO carDAO, ClientDAO clientDAO, WorkerDAO workerDAO, RepairDAO repairDAO) {
+		Car tmpCar1 = new Car("1G1PC5SB1E7125694", "Mazda", "MX5", true, "WSD23456");
+		Worker tmpWorker1 = new Worker("Stanisław", "Świszczypała", "Mechanik", 30, "12/03/2018", "489126745");
+		Repair tmpRepair1 = new Repair("Wymiana wałków rozrządu", "05/04/2024");
+		Client tmpClient1 = new Client("Emil", "Fronczyk", "456741589");
+		tmpCar1.addRepair(tmpRepair1);
+		tmpWorker1.addRepair(tmpRepair1);
+		tmpClient1.add(tmpCar1);
+		clientDAO.save(tmpClient1); //dzięki typom kaskadowym wystaczy zapisać klienta w bazie a reszta też zostanie zapisana dzięki powiązaniom ze sobą
 	}
 
 	private void createClientWithCars(CarDAO carDAO, ClientDAO clientDAO) {

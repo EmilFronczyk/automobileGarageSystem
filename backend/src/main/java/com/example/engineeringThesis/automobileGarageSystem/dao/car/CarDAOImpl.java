@@ -2,6 +2,7 @@ package com.example.engineeringThesis.automobileGarageSystem.dao.car;
 
 import com.example.engineeringThesis.automobileGarageSystem.dto.CarDTO;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Car;
+import com.example.engineeringThesis.automobileGarageSystem.entity.Client;
 import com.example.engineeringThesis.automobileGarageSystem.mapper.CarMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -27,11 +28,6 @@ public class CarDAOImpl implements CarDAO {
         entityManager.persist(theCar);
     }
 
-//    @Override
-//    public CarDTO findById(Integer id) {
-//        Car car =  entityManager.find(Car.class, id);
-//        return CarMapper.INSTANCE.carToCarDTO(car);
-//    }
 
     @Override
     public Car findById(Integer id) {
@@ -56,5 +52,19 @@ public class CarDAOImpl implements CarDAO {
         Car theCar = entityManager.find(Car.class, id);
         entityManager.remove(theCar);
 
+    }
+
+    @Override
+    public Client findClientByCarId(Integer id) {
+        TypedQuery<Client> theQuery = entityManager.createQuery("SELECT c.client FROM Car c WHERE c.id = :data", Client.class);
+        theQuery.setParameter("data", id);
+        return theQuery.getSingleResult();
+    }
+
+    @Override
+    public Car findByRegistrationNumber(String registration) {
+        TypedQuery<Car> theQuery = entityManager.createQuery("SELECT c FROM Car c WHERE c.registration = :data", Car.class);
+        theQuery.setParameter("data", registration);
+        return theQuery.getSingleResult();
     }
 }

@@ -7,10 +7,10 @@ import lombok.Setter;
 @Setter
 public class RepairDTO {
     private String client;
-    private String mark;
-    private String model;
+    private String vehicle;
+    private String worker;
     private String registration;
-    private String status;
+    private boolean status;
     private String date;
     private String title;
 }

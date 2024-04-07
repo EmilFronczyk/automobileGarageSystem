@@ -1,6 +1,8 @@
 package com.example.engineeringThesis.automobileGarageSystem.dao.repair;
 
+import com.example.engineeringThesis.automobileGarageSystem.entity.Car;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Repair;
+import com.example.engineeringThesis.automobileGarageSystem.entity.Worker;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +48,19 @@ public class RepairDAOImpl implements RepairDAO {
         Repair theRepair = entityManager.find(Repair.class, id);
         entityManager.remove(theRepair);
 
+    }
+
+    @Override
+    public Worker findWorkerByRepairId(Integer id) {
+        TypedQuery<Worker> theQuery = entityManager.createQuery("SELECT r.worker FROM Repair r WHERE r.id = :data", Worker.class);
+        theQuery.setParameter("data", id);
+        return theQuery.getSingleResult();
+    }
+
+    @Override
+    public Car findCarByRepairId(Integer id) {
+        TypedQuery<Car> theQuery = entityManager.createQuery("SELECT r.car FROM Repair r WHERE r.id = :data", Car.class);
+        theQuery.setParameter("data", id);
+        return theQuery.getSingleResult();
     }
 }

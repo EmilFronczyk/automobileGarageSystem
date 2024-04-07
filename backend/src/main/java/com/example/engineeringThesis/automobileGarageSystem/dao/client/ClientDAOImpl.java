@@ -49,4 +49,15 @@ public class ClientDAOImpl implements ClientDAO {
         entityManager.remove(theClient);
 
     }
+
+    @Override
+    public Client findClientByName(String name) {
+        String[] fullName = name.split(" ");
+        String firstName = fullName[0];
+        String lastName = fullName[1];
+        TypedQuery<Client> theQuery = entityManager.createQuery("SELECT c FROM Client c WHERE c.firstName = :firstName AND c.lastName = :lastName", Client.class);
+        theQuery.setParameter("firstName", firstName);
+        theQuery.setParameter("lastName", lastName);
+        return theQuery.getSingleResult();
+    }
 }

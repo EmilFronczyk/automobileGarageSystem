@@ -1,5 +1,6 @@
 package com.example.engineeringThesis.automobileGarageSystem.dao.worker;
 
+import com.example.engineeringThesis.automobileGarageSystem.entity.Car;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Worker;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -46,5 +47,16 @@ public class WorkerDAOImpl implements WorkerDAO {
         Worker theWorker = entityManager.find(Worker.class, id);
         entityManager.remove(theWorker);
 
+    }
+
+    @Override
+    public Worker findWorkerByName(String name) {
+        String[] fullName = name.split(" ");
+        String firstName = fullName[0];
+        String lastName = fullName[1];
+        TypedQuery<Worker> theQuery = entityManager.createQuery("SELECT w FROM Worker w WHERE w.firstName = :firstName AND w.lastName = :lastName", Worker.class);
+        theQuery.setParameter("firstName", firstName);
+        theQuery.setParameter("lastName", lastName);
+        return theQuery.getSingleResult();
     }
 }

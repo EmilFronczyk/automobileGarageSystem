@@ -10,4 +10,6 @@ public class CarDTO {
     private String model;
     private boolean status;
     private String registration;
+    private String nr_vin;
+    private String client;
 }

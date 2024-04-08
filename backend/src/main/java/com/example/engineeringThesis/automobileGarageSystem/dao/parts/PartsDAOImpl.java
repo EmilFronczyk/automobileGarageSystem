@@ -45,7 +45,12 @@ public class PartsDAOImpl implements PartsDAO {
     public void deleteById(Integer id) {
         Parts thePart = entityManager.find(Parts.class, id);
         entityManager.remove(thePart);
+    }
 
-
+    @Override
+    public Parts getPartByCatalogNumber(String catalogNumber) {
+        TypedQuery<Parts> theQuery = entityManager.createQuery("SELECT p FROM Parts p WHERE p.catalogNumber = :data", Parts.class);
+        theQuery.setParameter("data", catalogNumber);
+        return theQuery.getSingleResult();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.engineeringThesis.automobileGarageSystem.dao.client;
 
+import com.example.engineeringThesis.automobileGarageSystem.entity.Car;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Client;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -59,5 +60,13 @@ public class ClientDAOImpl implements ClientDAO {
         theQuery.setParameter("firstName", firstName);
         theQuery.setParameter("lastName", lastName);
         return theQuery.getSingleResult();
+    }
+
+    @Override
+    public List<Car> findCarByClientId(Integer id) {
+        TypedQuery<Car> theQuery = entityManager.createQuery("SELECT cl.cars FROM Client cl WHERE cl.id = :data", Car.class);
+        theQuery.setParameter("data", id);
+        System.out.println(theQuery.getResultList());
+        return theQuery.getResultList();
     }
 }

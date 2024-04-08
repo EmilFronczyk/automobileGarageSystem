@@ -9,4 +9,5 @@ public interface PartsDAO {
     List<Parts> findAll();
     void update(Parts thePart);
     void deleteById(Integer id);
+    Parts getPartByCatalogNumber (String catalogNumber);
 }

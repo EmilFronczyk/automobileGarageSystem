@@ -1,5 +1,6 @@
 package com.example.engineeringThesis.automobileGarageSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Car {
     private String registration;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "id_klienta")
+    @JsonIgnore
     private Client client;
     @OneToMany(mappedBy = "car", cascade = {CascadeType.ALL})
     private List<Repair> repairs;

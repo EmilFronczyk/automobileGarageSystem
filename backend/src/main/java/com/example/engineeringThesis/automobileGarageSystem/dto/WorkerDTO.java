@@ -11,4 +11,5 @@ public class WorkerDTO {
     private String position;
     private String payRate;
     private String phoneNumber;
+    private String hireDate;
 }

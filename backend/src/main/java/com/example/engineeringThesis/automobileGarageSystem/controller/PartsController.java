@@ -30,4 +30,9 @@ public class PartsController {
     public PartsDTO updatePart(@RequestBody PartsDTO partsDTO) {
         return partsService.updatePart(partsDTO);
     }
+
+    @DeleteMapping("/{id}")
+    public String deletePartById(@PathVariable Integer id) {
+        return partsService.deletePartById(id);
+    }
 }

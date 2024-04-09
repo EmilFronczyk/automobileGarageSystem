@@ -4,8 +4,11 @@ import com.example.engineeringThesis.automobileGarageSystem.dao.parts.PartsDAO;
 import com.example.engineeringThesis.automobileGarageSystem.dto.PartsDTO;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Parts;
 import com.example.engineeringThesis.automobileGarageSystem.mapper.PartsMapper;
+import jakarta.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.swing.*;
 
 @Service
 public class PartsServiceImpl implements PartsService{
@@ -40,4 +43,12 @@ public class PartsServiceImpl implements PartsService{
         partsDAO.update(part);
         return partsDTO;
     }
+
+    @Override
+    public String deletePartById(Integer id) {
+        partsDAO.deleteById(id);
+        return "Deleted part : " + PartsMapper.INSTANCE.partsToPartsDTO(partsDAO.findById(id));
+    }
+
+
 }

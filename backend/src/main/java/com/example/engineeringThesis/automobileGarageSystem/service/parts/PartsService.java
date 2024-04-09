@@ -9,4 +9,6 @@ public interface PartsService {
     PartsDTO addNewPart(PartsDTO partsDTO);
 
     PartsDTO updatePart(PartsDTO partsDTO);
+
+    String deletePartById(Integer id);
 }

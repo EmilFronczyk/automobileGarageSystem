@@ -29,17 +29,4 @@ public interface RepairMapper {
         return worker.getFirstName() + " " + worker.getLastName();
     }
 
-//    @Named("splitName")
-//    default Worker splitName(String workerName) {
-//        Worker worker =
-//
-//    }
-
-//    default Worker map(String value) {
-//        Worker worker = new Worker();
-//        String[] parts = value.split(" ");
-//        worker.setFirstName(parts[0]);
-//        worker.setLastName(parts[1]);
-//        return worker;
-//    }
 }

@@ -4,6 +4,8 @@ import com.example.engineeringThesis.automobileGarageSystem.dto.ClientDTO;
 import com.example.engineeringThesis.automobileGarageSystem.service.client.ClientService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/clients")
 public class ClientController {
@@ -22,5 +24,15 @@ public class ClientController {
     @PostMapping()
     public ClientDTO addClient(@RequestBody ClientDTO clientDTO) {
         return clientService.addNewClient(clientDTO);
+    }
+
+    @GetMapping("/all")
+    public List<ClientDTO> getAllClients() {
+        return clientService.getAllClients();
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteClientById(@PathVariable Integer id) {
+        return clientService.deleteClientById(id);
     }
 }

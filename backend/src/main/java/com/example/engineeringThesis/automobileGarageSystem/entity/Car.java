@@ -41,12 +41,12 @@ public class Car {
 
     }
 
-    public Car(String nr_vin, String mark, String model, boolean status, String registracion) {
+    public Car(String nr_vin, String mark, String model, boolean status, String registration) {
         this.nr_vin = nr_vin;
         this.mark = mark;
         this.model = model;
         this.status = status;
-        this.registration = registracion;
+        this.registration = registration;
     }
 
 

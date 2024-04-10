@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientServiceImpl implements ClientService{
@@ -23,16 +24,33 @@ public class ClientServiceImpl implements ClientService{
         this.clientDAO = clientDAO;
     }
 
+    public List<Car> filerClientCars(Integer id) {
+        List<Car> clientsCars = clientDAO.findCarByClientId(id);
+        return clientsCars.stream()
+                .map(car -> {
+                    Car filteredCar = new Car();
+                    filteredCar.setMark(car.getMark());
+                    filteredCar.setModel(car.getModel());
+                    return filteredCar;
+                })
+                .toList();
+    }
+
+    @Override
+    public String deleteClientById(Integer id) {
+        ClientDTO clientDTO = ClientMapper.INSTANCE.clientToClientDTO(clientDAO.findById(id));
+        clientDAO.deleteById(id);
+        return "Client: " + clientDTO.getFirstName() + " " + clientDTO.getLastName() + " was deleted";
+    }
+
     @Override
     public ClientDTO getClientById(Integer id) {
         Client client = clientDAO.findById(id);
-        ClientDTO clientDTO = ClientMapper.INSTANCE.clientToClientDTO(client);
-        clientDTO.setCars(new ArrayList<>());
-        List<Car> clientsCars = clientDAO.findCarByClientId(id);
-        System.out.println("Clients cars: " + clientsCars);
-        for(Car car : clientsCars) {
-            clientDTO.getCars().add(car);
+        if (client == null) {
+            return null;
         }
+        ClientDTO clientDTO = ClientMapper.INSTANCE.clientToClientDTO(client);
+        clientDTO.setCars(filerClientCars(id));
         return clientDTO;
     }
 
@@ -41,5 +59,17 @@ public class ClientServiceImpl implements ClientService{
         Client client = clientMapper.clientDTOToClient(clientDTO);
         clientDAO.save(client);
         return clientDTO;
+    }
+
+    @Override
+    public List<ClientDTO> getAllClients() {
+        List<Client> clients = clientDAO.findAll();
+        clients.forEach(client -> {
+                client.setCars(filerClientCars(client.getId()));
+            });
+        //mapowanie Client do ClientDTO
+        return clients.stream()
+                .map(clientMapper::clientToClientDTO)
+                .collect(Collectors.toList());
     }
 }

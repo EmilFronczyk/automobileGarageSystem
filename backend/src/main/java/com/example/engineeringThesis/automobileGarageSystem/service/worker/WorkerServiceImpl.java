@@ -4,7 +4,11 @@ import com.example.engineeringThesis.automobileGarageSystem.dao.worker.WorkerDAO
 import com.example.engineeringThesis.automobileGarageSystem.dto.WorkerDTO;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Worker;
 import com.example.engineeringThesis.automobileGarageSystem.mapper.WorkerMapper;
+import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkerServiceImpl implements  WorkerService {
@@ -28,5 +32,20 @@ public class WorkerServiceImpl implements  WorkerService {
         Worker worker = workerMapper.workerDTOToWorker(workerDTO);
         workerDAO.save(worker);
         return workerDTO;
+    }
+
+    @Override
+    public List<WorkerDTO> getAllWorkers() {
+        List<Worker> workers = workerDAO.findAll();
+        return workers.stream()
+                .map(workerMapper::workerToWorkerDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String deleteWorkerById(Integer id) {
+        WorkerDTO workerDTO = WorkerMapper.INSTANCE.workerToWorkerDTO(workerDAO.findById(id));
+        workerDAO.delete(id);
+        return "Client: " + workerDTO.getFirstName() + " " + workerDTO.getLastName() + " was deleted";
     }
 }

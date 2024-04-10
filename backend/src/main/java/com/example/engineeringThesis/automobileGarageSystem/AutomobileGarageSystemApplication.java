@@ -44,11 +44,33 @@ public class AutomobileGarageSystemApplication {
 
 	private void createClientWithCars(CarDAO carDAO, ClientDAO clientDAO) {
 		Client tmpClient1 = new Client("Beata", "Dziewulska", "456741589");
+		Client tmpClient2 = new Client("Grzegorz", "Brzęczyszczykiewicz", "789456123");
+		Client tmpClient3 = new Client("Malik", "Montana", "696321852");
+		Client tmpClient4 = new Client("Michael", "Dzordan", "723901384");
+		Client tmpClient5 = new Client("LeBron", "Jakub", "515212313");
+
 		Car tmpCar1 = new Car("JTLZE4FE7A1116475", "Audi", "Q5", true, "WY45678");
 		Car tmpCar2 = new Car("WBA3A5G59ENP31624", "Range Rover", "Discovery", true, "WPl90876");
+		Car tmpCar3 = new Car("JTLZE4FE7A1116475", "Seat", "Leon", true, "WX34567");
+		Car tmpCar4 = new Car("WBA3A5G59ENP31624", "BMW", "E46", true, "WPR78945");
+		Car tmpCar5 = new Car("1FMRU15W71LB90650", "Volvo", "XC60", true, "WI12345");
+		Car tmpCar6 = new Car("1G2NE52TXYM815391", "Renault", "Clio", true, "WX78936");
+
 		tmpClient1.add(tmpCar1);
 		tmpClient1.add(tmpCar2);
 		clientDAO.save(tmpClient1);
+
+		tmpClient2.add(tmpCar3);
+		clientDAO.save(tmpClient2);
+
+		tmpClient3.add(tmpCar4);
+		clientDAO.save(tmpClient3);
+
+		tmpClient4.add(tmpCar5);
+		clientDAO.save(tmpClient4);
+
+		tmpClient5.add(tmpCar6);
+		clientDAO.save(tmpClient5);
 	}
 
 	private void readTables(CarDAO carDAO, ClientDAO clientDAO, WorkerDAO workerDAO, RepairDAO repairDAO, PartsDAO partsDAO) {
@@ -86,20 +108,11 @@ public class AutomobileGarageSystemApplication {
 	}
 
 	private void createTables(CarDAO carDAO, ClientDAO clientDAO, WorkerDAO workerDAO, RepairDAO repairDAO, PartsDAO partsDAO) {
-		Car tmpCar1 = new Car("JTLZE4FE7A1116475", "Seat", "Leon", true, "WX34567");
-		Car tmpCar2 = new Car("WBA3A5G59ENP31624", "BMW", "E46", true, "WPR78945");
-		Car tmpCar3 = new Car("1FMRU15W71LB90650", "Volvo", "XC60", true, "WI12345");
-		Car tmpCar4 = new Car("1G2NE52TXYM815391", "Renault", "Clio", true, "WX78936");
 
 		Worker tmpWorker1 = new Worker("Jan", "Nowak", "Mechanik", 25, "12/03/2020", "123456789");
 		Worker tmpWorker2 = new Worker("Adam", "Kowalski", "Mechanik", 25, "16/03/2020", "789456123");
 		Worker tmpWorker3 = new Worker("Marek", "Papuga", "Magazynier", 25, "12/12/2015", "456789123");
 		Worker tmpWorker4 = new Worker("Tomek", "Montana", "Kierowca", 25, "15/09/2006", "123789456");
-
-		Client tmpClient1 = new Client("Grzegorz", "Brzęczyszczykiewicz", "789456123");
-		Client tmpClient2 = new Client("Malik", "Montana", "696321852");
-		Client tmpClient3 = new Client("Michael", "Dzordan", "723901384");
-		Client tmpClient4 = new Client("LeBron", "Jakub", "515212313");
 
 		Parts tmpPart1 = new Parts("124ABCU12", 78, 89, "Pół ośka lewa");
 		Parts tmpPart2 = new Parts("789XYZA15", 40, 89, "Tarcza hamulcowa Brembo - przód");
@@ -110,16 +123,6 @@ public class AutomobileGarageSystemApplication {
 		Repair tmpRepair2 = new Repair("Wymiana kół", "29/02/2024");
 		Repair tmpRepair3 = new Repair("Serwis klimatyzacji", "21/06/2021");
 		Repair tmpRepair4 = new Repair("Wymiana rozrządu", "15/04/2020");
-
-        for (Car car : Arrays.asList(tmpCar1, tmpCar2, tmpCar3, tmpCar4)) {
-            carDAO.save(car);
-			System.out.println("Car "+car.toString() + " saved into database");
-        }
-
-        for (Client client : Arrays.asList(tmpClient1, tmpClient2, tmpClient3, tmpClient4)) {
-            clientDAO.save(client);
-			System.out.println("Client "+client.toString() + " saved into database");
-        }
 
 		for (Worker worker : Arrays.asList(tmpWorker1, tmpWorker2, tmpWorker3, tmpWorker4)) {
 			workerDAO.save(worker);

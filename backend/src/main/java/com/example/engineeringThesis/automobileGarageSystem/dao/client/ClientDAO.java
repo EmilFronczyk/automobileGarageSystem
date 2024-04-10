@@ -11,5 +11,6 @@ public interface ClientDAO {
     void update(Client theClient);
     void deleteById(Integer id);
     Client findClientByName(String name);
+    //List<Object[]> findCarByClientId(Integer id);
     List<Car> findCarByClientId(Integer id);
 }

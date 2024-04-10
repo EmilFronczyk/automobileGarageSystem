@@ -69,4 +69,11 @@ public class ClientDAOImpl implements ClientDAO {
         System.out.println(theQuery.getResultList());
         return theQuery.getResultList();
     }
+
+//    @Override
+//    public List<Object[]> findCarByClientId(Integer id) {
+//        TypedQuery<Object[]> theQuery = entityManager.createQuery("SELECT c.mark, c.model FROM Client cl JOIN cl.cars c WHERE cl.id = :data", Object[].class);
+//        theQuery.setParameter("data", id);
+//        return theQuery.getResultList();
+//    }
 }

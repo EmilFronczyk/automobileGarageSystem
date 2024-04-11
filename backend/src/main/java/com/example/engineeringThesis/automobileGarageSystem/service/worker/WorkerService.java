@@ -13,4 +13,6 @@ public interface WorkerService {
     List<WorkerDTO> getAllWorkers();
 
     String deleteWorkerById(Integer id);
+
+    WorkerDTO updateWorker(WorkerDTO workerDTO);
 }

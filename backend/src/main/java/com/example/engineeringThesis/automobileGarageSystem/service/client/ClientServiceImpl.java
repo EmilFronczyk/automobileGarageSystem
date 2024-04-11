@@ -44,6 +44,15 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
+    public ClientDTO updateClient(ClientDTO clientDTO) {
+        Client client = clientDAO.findById(clientDTO.getId());
+        client.setLastName(clientDTO.getLastName());
+        client.setPhoneNumber(clientDTO.getPhoneNumber());
+        clientDAO.update(client);
+        return clientDTO;
+    }
+
+    @Override
     public ClientDTO getClientById(Integer id) {
         Client client = clientDAO.findById(id);
         if (client == null) {

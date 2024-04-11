@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ClientService {
     ClientDTO getClientById(Integer id);
+
     ClientDTO addNewClient(ClientDTO clientDTO);
 
     List<ClientDTO> getAllClients();
@@ -15,4 +16,6 @@ public interface ClientService {
     public List<Car> filerClientCars(Integer id);
 
     String deleteClientById(Integer id);
+
+    ClientDTO updateClient(ClientDTO clientDTO);
 }

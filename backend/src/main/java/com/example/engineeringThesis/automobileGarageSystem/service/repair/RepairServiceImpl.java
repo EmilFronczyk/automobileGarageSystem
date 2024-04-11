@@ -11,6 +11,9 @@ import com.example.engineeringThesis.automobileGarageSystem.mapper.RepairMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class RepairServiceImpl implements RepairService{
 
@@ -50,5 +53,22 @@ public class RepairServiceImpl implements RepairService{
         worker.addRepair(repair);
         repairDAO.save(repair);
         return repairDTO;
+    }
+
+    @Override
+    public List<RepairDTO> getAllRepairs() {
+        List<Repair> repairs = repairDAO.findAll();
+        return repairs.stream()
+                .map(repair -> {
+                    RepairDTO repairDTO = repairMapper.repairToRepairDTO(repair);
+                    repairDTO.setWorker(repair.getWorker().getFirstName() + " " + repair.getWorker().getLastName());
+                    repairDTO.setVehicle(repair.getCar().getMark() + " " + repair.getCar().getModel());
+                    repairDTO.setRegistration(repair.getCar().getRegistration());
+                    repairDTO.setStatus(repair.getCar().isStatus());
+                    repairDTO.setClient(repair.getCar().getClient().getFirstName() + " "
+                            + repair.getCar().getClient().getLastName());
+                    return repairDTO;
+                })
+                .collect(Collectors.toList());
     }
 }

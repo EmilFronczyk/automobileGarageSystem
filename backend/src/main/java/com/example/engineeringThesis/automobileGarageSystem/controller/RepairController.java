@@ -6,6 +6,8 @@ import com.example.engineeringThesis.automobileGarageSystem.service.repair.Repai
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/repairs")
 public class RepairController {
@@ -25,5 +27,10 @@ public class RepairController {
     @PostMapping()
     public RepairDTO addRepair(@RequestBody RepairDTO repairDTO) {
         return repairService.addNewRepair(repairDTO);
+    }
+
+    @GetMapping("/all")
+    public List<RepairDTO> getAllRepairs() {
+        return repairService.getAllRepairs();
     }
 }

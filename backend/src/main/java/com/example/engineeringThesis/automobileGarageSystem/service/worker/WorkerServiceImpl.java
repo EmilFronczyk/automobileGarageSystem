@@ -48,4 +48,16 @@ public class WorkerServiceImpl implements  WorkerService {
         workerDAO.delete(id);
         return "Client: " + workerDTO.getFirstName() + " " + workerDTO.getLastName() + " was deleted";
     }
+
+    @Override
+    public WorkerDTO updateWorker(WorkerDTO workerDTO) {
+        Worker worker = workerDAO.findById(workerDTO.getId());
+        worker.setLastName(workerDTO.getLastName());
+        worker.setPosition(workerDTO.getPosition());
+        worker.setPayRate(workerDTO.getPayRate());
+        worker.setPhoneNumber(workerDTO.getPhoneNumber());
+        workerDAO.update(worker);
+        return workerDTO;
+
+    }
 }

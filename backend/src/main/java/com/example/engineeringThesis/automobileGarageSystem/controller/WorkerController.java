@@ -1,6 +1,7 @@
 package com.example.engineeringThesis.automobileGarageSystem.controller;
 
 import com.example.engineeringThesis.automobileGarageSystem.dto.WorkerDTO;
+import com.example.engineeringThesis.automobileGarageSystem.entity.Worker;
 import com.example.engineeringThesis.automobileGarageSystem.service.worker.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,10 @@ public class WorkerController {
     @DeleteMapping("/{id}")
     public String deleteClientById(@PathVariable Integer id) {
         return workerService.deleteWorkerById(id);
+    }
+
+    @PutMapping()
+    public WorkerDTO updateWorker(@RequestBody WorkerDTO workerDTO) {
+        return workerService.updateWorker(workerDTO);
     }
 }

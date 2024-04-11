@@ -10,7 +10,7 @@ public class WorkerDTO {
     private String firstName;
     private String lastName;
     private String position;
-    private String payRate;
+    private int payRate;
     private String phoneNumber;
     private String hireDate;
 }

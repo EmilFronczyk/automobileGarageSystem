@@ -35,4 +35,9 @@ public class ClientController {
     public String deleteClientById(@PathVariable Integer id) {
         return clientService.deleteClientById(id);
     }
+
+    @PutMapping()
+    public ClientDTO updateClient(@RequestBody ClientDTO clientDTO) {
+        return clientService.updateClient(clientDTO);
+    }
 }

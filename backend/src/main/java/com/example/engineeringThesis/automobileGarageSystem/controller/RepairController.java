@@ -33,4 +33,9 @@ public class RepairController {
     public List<RepairDTO> getAllRepairs() {
         return repairService.getAllRepairs();
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteRepairById(@PathVariable Integer id) {
+        return repairService.deleteRepairById(id);
+    }
 }

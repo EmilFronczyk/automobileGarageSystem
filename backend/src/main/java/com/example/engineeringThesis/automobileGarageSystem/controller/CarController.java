@@ -6,6 +6,8 @@ import com.example.engineeringThesis.automobileGarageSystem.service.car.CarServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/cars")
 public class CarController {
@@ -27,4 +29,18 @@ public class CarController {
         return carService.addNewCar(carDTO);
     }
 
+    @GetMapping("/all")
+    public List<CarDTO> getAllCars() {
+        return carService.getAllCars();
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteCarById(@PathVariable Integer id) {
+        return carService.deleteCarById(id);
+    }
+
+    @PutMapping()
+    public CarDTO updateCar(@RequestBody CarDTO carDTO) {
+        return carService.updateCar(carDTO);
+    }
 }

@@ -46,7 +46,7 @@ public class WorkerServiceImpl implements  WorkerService {
     public String deleteWorkerById(Integer id) {
         WorkerDTO workerDTO = WorkerMapper.INSTANCE.workerToWorkerDTO(workerDAO.findById(id));
         workerDAO.delete(id);
-        return "Client: " + workerDTO.getFirstName() + " " + workerDTO.getLastName() + " was deleted";
+        return "Worker: " + workerDTO.getFirstName() + " " + workerDTO.getLastName() + " was deleted";
     }
 
     @Override

@@ -71,4 +71,11 @@ public class RepairServiceImpl implements RepairService{
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String deleteRepairById(Integer id) {
+        RepairDTO repairDTO = RepairMapper.INSTANCE.repairToRepairDTO(repairDAO.findById(id));
+        repairDAO.delete(id);
+        return "Repair part : " + repairDTO.getTitle();
+    }
 }

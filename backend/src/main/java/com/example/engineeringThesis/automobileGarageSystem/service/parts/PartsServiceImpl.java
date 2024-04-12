@@ -46,8 +46,9 @@ public class PartsServiceImpl implements PartsService{
 
     @Override
     public String deletePartById(Integer id) {
+        PartsDTO partsDTO = PartsMapper.INSTANCE.partsToPartsDTO(partsDAO.findById(id));
         partsDAO.deleteById(id);
-        return "Deleted part : " + PartsMapper.INSTANCE.partsToPartsDTO(partsDAO.findById(id));
+        return "Deleted part : " + partsDTO.getPartName();
     }
 
 

@@ -1,0 +1,14 @@
+.menuContainer {
+    .MuiDrawer-paper {
+        background-color: white;
+    }
+
+    .iconButton {
+        color: #729eda;
+    }
+
+    .iconButton:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 2px;
+    }
+}

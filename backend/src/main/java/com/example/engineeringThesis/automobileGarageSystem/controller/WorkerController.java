@@ -20,26 +20,31 @@ public class  WorkerController {
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public WorkerDTO getWorkerById(@PathVariable Integer id) {
         return workerService.getWorkerById(id);
     }
 
     @PostMapping()
+    @CrossOrigin(origins = "http://localhost:3000")
     public WorkerDTO addWorker(@RequestBody WorkerDTO workerDTO) {
         return workerService.addNewWorker(workerDTO);
     }
 
     @GetMapping("/all")
+    @CrossOrigin(origins = "http://localhost:3000")
     public List<WorkerDTO> getAllWorkers() {
         return workerService.getAllWorkers();
     }
 
     @DeleteMapping("/{id}")
-    public String deleteClientById(@PathVariable Integer id) {
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String deleteWorkerById(@PathVariable Integer id) {
         return workerService.deleteWorkerById(id);
     }
 
     @PutMapping()
+    @CrossOrigin(origins = "http://localhost:3000")
     public WorkerDTO updateWorker(@RequestBody WorkerDTO workerDTO) {
         return workerService.updateWorker(workerDTO);
     }

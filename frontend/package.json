@@ -2,7 +2,18 @@
   "name": "automobile-garage-system-app",
   "version": "0.1.0",
   "private": true,
+  "options": {
+    "allowedHosts": [
+      "localhost",
+      ".localhost"
+    ],
+    "proxy": "http://192.168.1.36:8080/"
+  },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.15",
+    "@mui/material": "^5.15.15",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -10,8 +21,10 @@
     "@types/node": "^16.18.96",
     "@types/react": "^18.2.77",
     "@types/react-dom": "^18.2.25",
+    "http-proxy-middleware": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.3",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -39,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-router-dom": "^6.22.3"
   }
 }

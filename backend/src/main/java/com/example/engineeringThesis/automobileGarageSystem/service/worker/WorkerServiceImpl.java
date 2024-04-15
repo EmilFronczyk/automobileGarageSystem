@@ -51,7 +51,7 @@ public class WorkerServiceImpl implements  WorkerService {
 
     @Override
     public WorkerDTO updateWorker(WorkerDTO workerDTO) {
-        Worker worker = workerDAO.findById(workerDTO.getId());
+        Worker worker = workerDAO.findWorkerByName(workerDTO.getFirstName() + " "+workerDTO.getLastName());
         worker.setLastName(workerDTO.getLastName());
         worker.setPosition(workerDTO.getPosition());
         worker.setPayRate(workerDTO.getPayRate());

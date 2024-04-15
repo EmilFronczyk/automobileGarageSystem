@@ -1,0 +1,34 @@
+.headerTopRow {
+    display: flex;
+    margin: 15px auto;
+    width: 95%;
+}
+
+.headerSearchBar {
+    width: 206px;
+    margin-top: 5px;
+    padding: 0;
+    background-color: #ffffff80;
+    height: fit-content;
+}
+
+.headerLabel {
+    margin-right: 15px;
+    text-align: center;
+    margin-top: 7px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #40A2D8;
+}
+
+.addButton {
+    margin-left: auto !important;
+    background-color: #40A2D8 !important;
+    height: 40px;
+    margin-top: 5px !important;
+}
+
+.addButton:hover {
+    background-color: #3490c0 !important;
+    box-shadow: 0px 0px 15px -5px rgba(84, 86, 97, 1);
+}

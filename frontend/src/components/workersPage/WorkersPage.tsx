@@ -1,6 +1,6 @@
 import React, {SyntheticEvent, useEffect, useState} from "react";
 import {
-    Autocomplete, Avatar, Button,
+    Autocomplete, Avatar, Box, Button,
     createFilterOptions, IconButton,
     Paper,
     Table,
@@ -13,8 +13,6 @@ import {
 import "./WorkerPage.css";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import MenuIcon from "@mui/icons-material/Menu";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -22,9 +20,19 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import {TransitionProps} from '@mui/material/transitions';
+import AddIcon from '@mui/icons-material/Add';
+import Modal from '@mui/material/Modal';
+import CloseIcon from '@mui/icons-material/Close';
+import {useForm} from "react-hook-form";
+import CustomDialog from "../customDialog/CustomDialog";
+import AddEditWorkerModal from "../addEditWorkerModal/AddEditWorkerModal";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import TableContainerComponent from "../tableContainer/TableContainerComponent";
+import HeaderComponent from "../headerComponent/HeaderComponent";
 
 
-type WorkerData = {
+export type WorkerData = {
     id: number,
     firstName: string,
     lastName: string,
@@ -65,23 +73,33 @@ function stringAvatar(name: string) {
     };
 }
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const WorkersPage = () => {
     const [value, setValue] = useState<WorkerData | null>(null);
-    const [open, toggleOpen] = useState(false);
     const url = "http://localhost:8080/api/workers/all";
     const [data, setData] = useState<WorkerData[]>([]);
     const [allWorkers, setAllWorkers] = useState<WorkerData[]>([]);
     const [openDeleteWindow, setOpenDeleteWindow] = useState(false);
     const [workerIdToDelete, setWorkerIdToDelete] = useState<number | null>(null);
+    const [workerIdToEdit, setWorkerIdToEdit] = useState<number | null>(null);
+    const [openAddWorkerWindow, setOpenAddWorkerWindow] = useState(false);
+    const [openEditWorkerWindow, setOpenEditWorkerWindow] = useState(false);
+    const [worker, setWorker] = useState<WorkerData | null>(null);
+    const [openAlert, setOpenAlert] = useState(false);
+
+    const headers = ["Pracownik", "Stanowisko", "Numer telefonu", "Data zatrudnienia", "Stawka (zł/h)", ""];
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        reset,
+        formState: {errors},
+    } = useForm<WorkerData>()
+
+    const onSubmit = () => {
+        console.log(watch("firstName"));
+    }
 
     useEffect(() => {
         if (value !== null) {
@@ -90,124 +108,154 @@ const WorkersPage = () => {
             setData(allWorkers);
         }
     }, [value]);
-    
+
     const fetchInfo = async () => {
         const res = await fetch(url);
         const d = await res.json();
         setAllWorkers(d);
         return setData(d);
     }
+
     console.log(data);
 
     useEffect(() => {
         fetchInfo();
     }, []);
 
+    useEffect(() => {
+        setWorker(data?.find((worker) => worker?.id === workerIdToEdit) || null);
+    }, [data, workerIdToEdit]);
+
     const onDeleteClick = async (workerId: number) => {
         await fetch(`http://localhost:8080/api/workers/${workerId}`, {
                 method: "DELETE"
             }
-        ).then(() => fetchInfo()).catch((error) => console.log(error));
+        ).then(() => {
+            fetchInfo();
+            setOpenAlert(true);
+        }).catch((error) => console.log(error));
         setOpenDeleteWindow(false);
         setWorkerIdToDelete(null);
     }
 
+    const onAddClick = async (data: WorkerData) => {
+        await fetch(`http://localhost:8080/api/workers`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(() => {
+            fetchInfo();
+            setOpenAlert(true);
+        }).catch((error) => console.log(error));
+        setOpenAddWorkerWindow(false);
+        reset();
+    }
+
+
+    console.log(worker);
+
+    const onEditSubmit = async (data: WorkerData) => {
+        console.log(data)
+        await fetch(`http://localhost:8080/api/workers`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                firstName: worker?.firstName, lastName: worker?.lastName, payRate: Number(data.payRate),
+                hireDate: data.hireDate, position: data.position, phoneNumber: data.phoneNumber
+            })
+        }).then(() => {
+            fetchInfo();
+            setOpenAlert(true);
+        }).catch((error) => console.log(error));
+        setOpenEditWorkerWindow(false);
+        setWorker(null);
+        setWorkerIdToEdit(null);
+        reset();
+    }
+
+    useEffect(() => {
+        if (workerIdToEdit && worker) {
+            setOpenEditWorkerWindow(true);
+        }
+    }, [workerIdToEdit, worker]);
+
     return (
         <>
-            <div className="workersTopRow">
-                <p className="workersLabel">
-                    Pracownicy
-                </p>
-                <Autocomplete className="workersSearchBar"
-                              value={value} // Do pola value komponentu Autocomplete przekazuje to co jest pod value wyżej w kodzie {} -> coś innego niż string
-                              onChange={(event, newValue) => {
-                                  setValue(newValue);
-                              }}
-                              size="small"
-                              options={data}
-                              getOptionLabel={(option) => option.firstName + " " + option.lastName}
-                              renderInput={(params) => <TextField {...params} label="Wyszukaj pracownika"/>}
-                />
-            </div>
-
-            <TableContainer className="workerTableContainer" component={Paper}>
-                <Table sx={{minWidth: 650}} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Pracownik</TableCell>
-                            <TableCell align="right">Stanowisko</TableCell>
-                            <TableCell align="right">Numer telefonu</TableCell>
-                            <TableCell align="right">Data zatrudnienia</TableCell>
-                            <TableCell align="right">Stawka (zł/h)</TableCell>
-                            <TableCell align="right"></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+            <HeaderComponent label="Pracownicy" data={data} value={value} onOpen={() => {
+                setOpenAddWorkerWindow(true)
+            }} buttonText="Dodaj pracownika" setValue={setValue}/>
+            <TableContainerComponent headers={headers} className="workerTableContainer">
+                {data.map((row) => (
+                    <TableRow
+                        key={row.id}
+                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                    >
+                        <TableCell className="workerNameCell" component="th" scope="row">
+                            <Avatar
+                                {...stringAvatar(row.firstName + " " + row.lastName)}
+                            />
+                            {row.firstName + " " + row.lastName}
+                        </TableCell>
+                        <TableCell align="right">{row.position}</TableCell>
+                        <TableCell align="right">{row.phoneNumber}</TableCell>
+                        <TableCell align="right">{row.hireDate}</TableCell>
+                        <TableCell align="right">{row.payRate}</TableCell>
+                        <TableCell align="right">
+                            <IconButton
+                                color="inherit"
+                                aria-label="Delete"
+                                onClick={() => {
+                                    setWorkerIdToDelete(row.id);
+                                    setOpenDeleteWindow(true);
+                                }}
+                                edge="start"
+                                sx={{marginLeft: 0.2, padding: 0, marginTop: -1}}
+                                size="small"
+                                className="iconButton"
                             >
-                                <TableCell className="workerNameCell" component="th" scope="row">
-                                    <Avatar
-                                        {...stringAvatar(row.firstName + " " + row.lastName)}
-                                    />
-                                    {row.firstName + " " + row.lastName}
-                                </TableCell>
-                                <TableCell align="right">{row.position}</TableCell>
-                                <TableCell align="right">{row.phoneNumber}</TableCell>
-                                <TableCell align="right">{row.hireDate}</TableCell>
-                                <TableCell align="right">{row.payRate}</TableCell>
-                                <TableCell align="right">
-                                    <IconButton
-                                        color="inherit"
-                                        aria-label="Delete"
-                                        onClick={() => {
-                                            setWorkerIdToDelete(row.id);
-                                            setOpenDeleteWindow(true);
-                                        }}
-                                        edge="start"
-                                        sx={{marginLeft: 0.2, padding: 0, marginTop: -1}}
-                                        size="small"
-                                        className="iconButton"
-                                    >
-                                        {<DeleteIcon/>}
-                                    </IconButton>
-                                    <IconButton
-                                        color="inherit"
-                                        aria-label="Edit"
-                                        onClick={() => console.log("kliknelo sie edit")}
-                                        edge="start"
-                                        sx={{marginLeft: 2, padding: 0, marginTop: -1}}
-                                        size="small"
-                                        className="iconButton"
-                                    >
-                                        {<EditIcon/>}
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <Dialog
-                open={openDeleteWindow}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={() => setOpenDeleteWindow(false)}
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle>Usunięcie pracownika</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        Czy jesteś pewien, że chcesz usunąć tego pracownika?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => onDeleteClick(workerIdToDelete || 0)}>Zatwierdź</Button>
-                    <Button onClick={() => setOpenDeleteWindow(false)}>Anuluj</Button>
-                </DialogActions>
-            </Dialog>
+                                {<DeleteIcon/>}
+                            </IconButton>
+                            <IconButton
+                                color="inherit"
+                                aria-label="Edit"
+                                onClick={() => {
+                                    setWorkerIdToEdit(row.id);
+                                }}
+                                edge="start"
+                                sx={{marginLeft: 2, padding: 0, marginTop: -1}}
+                                size="small"
+                                className="iconButton"
+                            >
+                                {<EditIcon/>}
+                            </IconButton>
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </TableContainerComponent>
+            <CustomDialog open={openDeleteWindow} onClose={() => setOpenDeleteWindow(false)}
+                          onSubmit={() => onDeleteClick(workerIdToDelete || 0)} title={"Usunięcie pracownika"}
+                          text={"Czy jesteś pewien, że chcesz usunąć tego pracownika?"}/>
+            <AddEditWorkerModal open={openAddWorkerWindow} onClose={() => setOpenAddWorkerWindow(false)}
+                                onSubmit={onAddClick} title={"Dodanie nowego pracownika"}/>
+            <AddEditWorkerModal open={openEditWorkerWindow} onClose={() => {
+                setOpenEditWorkerWindow(false);
+                setWorkerIdToEdit(null);
+            }}
+                                onSubmit={onEditSubmit} title={"Edytowanie pracownika"} data={worker}/>
+            <Snackbar open={openAlert} autoHideDuration={6000} onClose={() => setOpenAlert(false)}>
+                <Alert
+                    onClose={() => setOpenAlert(false)}
+                    severity="success"
+                    variant="filled"
+                    sx={{width: '100%'}}
+                >
+                    Operacja zakończona sukcesem!
+                </Alert>
+            </Snackbar>
         </>
     );
 

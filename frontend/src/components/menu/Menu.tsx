@@ -19,6 +19,7 @@ import EngineeringIcon from '@mui/icons-material/Engineering';
 import HomeIcon from '@mui/icons-material/Home';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import LogoutIcon from '@mui/icons-material/Logout';
 import "./Menu.css";
 import {useNavigate} from "react-router-dom";
 
@@ -78,8 +79,8 @@ const Menu = ({setMenuSize}: MenuProps) => {
         }),
     );
     const iconsTable = [<HomeIcon/>, <EngineeringIcon/>, <WarehouseIcon/>, <ContactsIcon/>, <BuildIcon/>,
-        <DirectionsCarIcon/>];
-    const urlTable = ["/desktop", "/workers", "/warehouse", "/clients", "/repairs", "/cars"];
+        <DirectionsCarIcon/>, <LogoutIcon/>];
+    const urlTable = ["/desktop", "/workers", "/warehouse", "/clients", "/repairs", "/cars", "/"];
     const navigate = useNavigate();
     return (
         <Drawer className="menuContainer" variant="permanent" open={open}>
@@ -94,7 +95,7 @@ const Menu = ({setMenuSize}: MenuProps) => {
                 {open ? <ChevronLeftIcon/> : <MenuIcon/>}
             </IconButton>
             <List>
-                {['Strona główna', 'Pracownicy', 'Magazyn', 'Klienci', 'Naprawy', 'Samochody'].map((text, index) => (
+                {['Strona główna', 'Pracownicy', 'Magazyn', 'Klienci', 'Naprawy', 'Samochody', 'Wyloguj'].map((text, index) => (
                     <ListItem key={text} disablePadding sx={{display: 'block'}}>
                         <ListItemButton
                             sx={{

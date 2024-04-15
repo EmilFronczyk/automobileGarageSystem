@@ -193,6 +193,7 @@ const WorkersPage = () => {
                     <TableRow
                         key={row.id}
                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                        className="table"
                     >
                         <TableCell className="workerNameCell" component="th" scope="row">
                             <Avatar

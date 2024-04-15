@@ -1,7 +1,7 @@
 import {Box, Button, FormHelperText, IconButton, TextField} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Modal from "@mui/material/Modal";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Resolver, useForm} from "react-hook-form";
 import {WorkerData} from "../workersPage/WorkersPage";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -21,15 +21,13 @@ const AddEditWorkerModal = ({open, title, onClose, onSubmit, data}: addEditWorke
 
     const {
         register, handleSubmit,
-        watch, reset, formState: {errors}
+        watch, reset, trigger, formState: {errors}
     }
         = useForm<WorkerData>({resolver: yupResolver(WorkerValidation()) as unknown as Resolver<WorkerData>});
 
     useEffect(() => {
         reset();
     }, []);
-
-    console.log()
 
     return (
         <Modal
@@ -61,10 +59,10 @@ const AddEditWorkerModal = ({open, title, onClose, onSubmit, data}: addEditWorke
                 <div className="addWorkerDiv">
                     <Box className="firstNameInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <TextField id="firstName" label="Imie"
-                                   variant="standard" InputProps={{
-                            disableUnderline: true
-                        }} {...register("firstName")}
-                                   required
+                                   variant="standard"
+                                   InputProps={{
+                                       disableUnderline: true
+                                   }} {...register("firstName")}
                                    defaultValue={data?.firstName}
                                    disabled={!!data}
                                    error={!!errors.firstName}
@@ -75,36 +73,44 @@ const AddEditWorkerModal = ({open, title, onClose, onSubmit, data}: addEditWorke
                         <TextField id="lastName" label="Nazwisko"
                                    variant="standard" InputProps={{
                             disableUnderline: true
-                        }} {...register("lastName")} required defaultValue={data?.lastName}
+                        }} {...register("lastName")} defaultValue={data?.lastName}
                                    disabled={!!data}
-                                   sx={{marginLeft: 1.5}}/>
+                                   sx={{marginLeft: 1.5}}
+                                   error={!!errors.lastName}
+                                   helperText={errors.lastName?.message}/>
                     </Box>
                     <Box className="positionInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <TextField id="position" label="Stanowisko"
                                    variant="standard" InputProps={{
                             disableUnderline: true
-                        }} {...register("position")} required defaultValue={data?.position}
+                        }} {...register("position")} defaultValue={data?.position} error={!!errors.position}
+                                   helperText={errors.position?.message}
                                    sx={{marginLeft: 1.5}}/>
                     </Box>
                     <Box className="contactInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <TextField id="contact" label="Kontakt"
                                    variant="standard" InputProps={{
                             disableUnderline: true
-                        }} {...register("phoneNumber")} required type="tel" defaultValue={data?.phoneNumber}
+                        }} {...register("phoneNumber")} type="tel" defaultValue={data?.phoneNumber}
+                                   error={!!errors.phoneNumber}
+                                   helperText={errors.phoneNumber?.message}
                                    sx={{marginLeft: 1.5}}/>
                     </Box>
                     <Box className="payRateInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <TextField id="payRate" label="Stawka"
                                    variant="standard" InputProps={{
                             disableUnderline: true
-                        }} {...register("payRate")} required type="number" defaultValue={data?.payRate}
+                        }} {...register("payRate")} type="number" defaultValue={data?.payRate || 0}
+                                   error={!!errors.payRate}
+                                   helperText={errors.payRate?.message}
                                    sx={{marginLeft: 1.5}}/>
                     </Box>
                     <Box className="hireDateInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <TextField id="hireDate" label="Data zatrudnienia"
                                    variant="standard" InputProps={{
                             disableUnderline: true
-                        }} {...register("hireDate")} required defaultValue={data?.hireDate}
+                        }} {...register("hireDate")} defaultValue={data?.hireDate} error={!!errors.hireDate}
+                                   helperText={errors.hireDate?.message}
                                    sx={{marginLeft: 1.5}}/>
                     </Box>
                 </div>
@@ -113,7 +119,7 @@ const AddEditWorkerModal = ({open, title, onClose, onSubmit, data}: addEditWorke
                         onClose();
                         reset();
                     }}>Anuluj</Button>
-                    <Button className="submitButton"
+                    <Button className="submitButton" onClick={() => trigger()}
                             type="submit">Zatwierdź</Button>
                 </div>
             </form>

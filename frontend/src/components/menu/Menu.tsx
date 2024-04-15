@@ -103,7 +103,7 @@ const Menu = ({setMenuSize}: MenuProps) => {
                                 justifyContent: open ? 'initial' : 'center',
                                 px: 2.5,
                             }}
-                            className="iconButton"
+                            className="iconButtons"
                             onClick={() => navigate(urlTable[index])}
                         >
                             <ListItemIcon

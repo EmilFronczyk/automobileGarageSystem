@@ -4,26 +4,26 @@ const WorkerValidation = () => {
     return yup.object().shape({
         firstName: yup
             .string()
-            .min(3, "Za mało liter, użyj minimum trzech"),
+            .min(3, "Za mało liter, użyj minimum 3"),
         lastName: yup
             .string()
-            .min(3, "Za mało liter, użyj minimum trzech"),
+            .min(3, "Za mało liter, użyj minimum 3"),
         position: yup
             .string()
-            .min(4, "Za mało liter, użyj minimum czterech")
+            .min(4, "Za mało liter, użyj minimum 4")
             .required("Pole jest wymagane"),
         payRate: yup
             .number()
-            .min(0, "Pracownik musi coś zarabiać")
+            .typeError("Pole jest wymagane")
+            .min(1, "Pracownik musi coś zarabiać")
             .required("Pole jest wymagane"),
         phoneNumber: yup
             .string()
-            .min(8, "Minimalna liczba cyfr to osiem")
-            .max(9, "Maksymalna liczba cyfr to dziewięć")
+            .min(8, "Minimalna liczba cyfr to 8")
+            .max(9, "Maksymalna liczba cyfr to 9")
             .required("Pole jest wymagane"),
         hireDate: yup
             .string()
-            .min(10, "Daty muszą mieć minimum dziesięć znaków")
             .required("Pole jest wymagane"),
     });
 }

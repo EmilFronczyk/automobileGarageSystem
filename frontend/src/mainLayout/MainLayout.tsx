@@ -8,7 +8,6 @@ type MainLayoutProps = {
 }
 const MainLayout = ({children}: MainLayoutProps) => {
     const location = useLocation();
-    console.log(location.pathname);
     const [menuSize, setMenuSize] = useState("80px");
     return (
         <div>

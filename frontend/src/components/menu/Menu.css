@@ -3,12 +3,16 @@
         background-color: white;
     }
 
-    .iconButton {
-        color: #729eda;
+    .iconButtons:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 0 !important;
+
+        .iconButton {
+            color: #40A2D8 !important;
+        }
     }
 
-    .iconButton:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-        border-radius: 2px;
+    .iconButton {
+        color: #729eda;
     }
 }

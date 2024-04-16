@@ -31,6 +31,7 @@ public class ClientServiceImpl implements ClientService{
                     Car filteredCar = new Car();
                     filteredCar.setMark(car.getMark());
                     filteredCar.setModel(car.getModel());
+                    filteredCar.setStatus(car.isStatus());
                     return filteredCar;
                 })
                 .toList();

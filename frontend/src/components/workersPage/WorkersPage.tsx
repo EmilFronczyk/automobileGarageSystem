@@ -13,16 +13,6 @@ import {
 import "./WorkerPage.css";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import {TransitionProps} from '@mui/material/transitions';
-import AddIcon from '@mui/icons-material/Add';
-import Modal from '@mui/material/Modal';
-import CloseIcon from '@mui/icons-material/Close';
 import {useForm} from "react-hook-form";
 import CustomDialog from "../customDialog/CustomDialog";
 import AddEditWorkerModal from "../addEditWorkerModal/AddEditWorkerModal";
@@ -30,6 +20,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import TableContainerComponent from "../tableContainer/TableContainerComponent";
 import HeaderComponent from "../headerComponent/HeaderComponent";
+import {stringAvatar} from "../../reusableFunctions/ReusableFunctions";
 
 
 export type WorkerData = {
@@ -40,37 +31,6 @@ export type WorkerData = {
     payRate: number,
     phoneNumber: string,
     hireDate: string
-}
-
-function stringToColor(string: string) {
-    let hash = 0;
-    let i;
-
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-        hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let color = '#';
-
-    for (i = 0; i < 3; i += 1) {
-        const value = (hash >> (i * 8)) & 0xff;
-        color += `00${value.toString(16)}`.slice(-2);
-    }
-    /* eslint-enable no-bitwise */
-
-    return color;
-}
-
-function stringAvatar(name: string) {
-    return {
-        sx: {
-            width: 32, height: 32,
-            bgcolor: stringToColor(name),
-            fontSize: 15
-        },
-        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-    };
 }
 
 
@@ -97,9 +57,6 @@ const WorkersPage = () => {
         formState: {errors},
     } = useForm<WorkerData>()
 
-    const onSubmit = () => {
-        console.log(watch("firstName"));
-    }
 
     useEffect(() => {
         if (value !== null) {
@@ -187,7 +144,7 @@ const WorkersPage = () => {
         <>
             <HeaderComponent label="Pracownicy" data={data} value={value} onOpen={() => {
                 setOpenAddWorkerWindow(true)
-            }} buttonText="Dodaj pracownika" setValue={setValue}/>
+            }} buttonText="Dodaj pracownika" setWorkerValue={setValue} type="worker"/>
             <TableContainerComponent headers={headers} className="workerTableContainer">
                 {data.map((row) => (
                     <TableRow

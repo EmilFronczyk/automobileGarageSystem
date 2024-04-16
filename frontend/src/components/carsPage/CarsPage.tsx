@@ -1,3 +1,10 @@
+export type CarToClientData = {
+    id: number,
+    mark: string,
+    model: string,
+    status: boolean
+}
+
 const CarsPage = () => {
     // const url = "http://localhost:8080/api/cars/all";
     // const [data, setData] = useState([]);

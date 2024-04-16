@@ -3,18 +3,32 @@ import {Autocomplete, Button, TextField} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import {WorkerData} from "../workersPage/WorkersPage";
 import "./HeaderComponent.css"
+import {ClientData} from "../clientsPage/ClientsPage";
 
 type headerComponentProps = {
     label: string,
     className?: string,
-    data: WorkerData[],
-    value: WorkerData | null,
+    data: (ClientData | WorkerData)[],
+    value: ClientData | WorkerData | null,
     onOpen: () => void,
     buttonText: string,
-    setValue: Dispatch<SetStateAction<WorkerData | null>>
+    type: 'client' | 'worker',
+    setClientValue?: Dispatch<SetStateAction<ClientData | null>>
+    setWorkerValue?: Dispatch<SetStateAction<WorkerData | null>>
 }
 
-const HeaderComponent = ({label, value, buttonText, onOpen, data, className, setValue}: headerComponentProps) => {
+
+const HeaderComponent = ({
+                             label,
+                             value,
+                             buttonText,
+                             onOpen,
+                             data,
+                             className,
+                             setClientValue,
+                             setWorkerValue,
+                             type
+                         }: headerComponentProps) => {
     return (
         <div className="headerTopRow">
             <p className="headerLabel">
@@ -23,7 +37,11 @@ const HeaderComponent = ({label, value, buttonText, onOpen, data, className, set
             <Autocomplete className="headerSearchBar"
                           value={value} // Do pola value komponentu Autocomplete przekazuje to co jest pod value wyżej w kodzie {} -> coś innego niż string
                           onChange={(event, newValue) => {
-                              setValue(newValue);
+                              if (type === 'client' && setClientValue) {
+                                  setClientValue(newValue as ClientData | null);
+                              } else if (type === 'worker' && setWorkerValue) {
+                                  setWorkerValue(newValue as WorkerData | null);
+                              }
                           }}
                           size="small"
                           options={data}

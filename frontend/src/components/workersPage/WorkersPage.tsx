@@ -22,12 +22,11 @@ import TableContainerComponent from "../tableContainer/TableContainerComponent";
 import HeaderComponent from "../headerComponent/HeaderComponent";
 import {stringAvatar} from "../../reusableFunctions/ReusableFunctions";
 
-
 export type WorkerData = {
     id: number,
     firstName: string,
     lastName: string,
-    position: string,
+    position: string,        
     payRate: number,
     phoneNumber: string,
     hireDate: string

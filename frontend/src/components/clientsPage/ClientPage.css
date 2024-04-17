@@ -1,0 +1,126 @@
+.clientTableContainer {
+    width: 95% !important;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-box-shadow: 0px 0px 17px -5px rgba(84, 86, 97, 1);
+    -moz-box-shadow: 0px 0px 17px -5px rgba(84, 86, 97, 1);
+    box-shadow: 0px 0px 17px -5px rgba(84, 86, 97, 1) !important;
+}
+
+.table {
+    .clientNameCell {
+        display: flex !important;
+        align-items: center;
+        min-height: 45px;
+        border-bottom: 0 !important;
+        border-top: 1px solid rgba(224, 224, 224, 1) !important;
+    }
+}
+
+.table {
+    &:first-child {
+        .clientNameCell {
+            border-top: 0 !important;
+        }
+    }
+}
+
+.MuiAvatar-root {
+    margin-right: 15px;
+}
+
+
+.iconButton {
+    padding: 0;
+    margin: 0;
+}
+
+.iconButton:hover {
+    color: #40A2D8 !important;
+}
+
+
+.addClientWindow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 400px;
+    width: 700px;
+    background: lightgray;
+    padding-top: 5px;
+
+    .addClientDiv {
+        display: grid;
+        grid-template-columns: auto auto;
+        padding: 10px 10px 40px 10px;
+        height: 200px;
+    }
+
+}
+
+
+
+.firstNameInput, .lastNameInput, .contactInput {
+    margin-bottom: 30px;
+    background-color: #b0b0b040;
+    border-radius: 15px;
+    height: 35px;
+    padding: 0 5px;
+    width: 260px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+
+#firstName-helper-text, #lastName-helper-text, #contact-helper-text {
+    margin-top: -2px !important;
+    margin-bottom: -18px !important;
+}
+
+.addClientTextInfo {
+    font-weight: bolder;
+    font-size: 25px;
+    margin-left: 48px;
+    color: #40A2D8;
+}
+
+.addClientSubmitButtons {
+    justify-content: flex-end;
+    display: flex;
+    margin-right: 48px;
+}
+
+.cancelButton {
+    border: 1px solid #40A2D8 !important;
+    margin-right: 8px !important;
+    color: #40A2D8 !important;
+}
+
+.submitButton {
+    background: #40A2D8 !important;
+    color: white !important;
+}
+
+.cancelButton:hover {
+    box-shadow: 0px 0px 15px -5px #40A2D8;
+}
+
+.submitButton:hover {
+    box-shadow: 0px 0px 15px -5px #40A2D8;
+}
+
+.modalTitleContainer {
+    display: flex;
+    width: 100%;
+
+
+    .iconButton {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: auto;
+        margin-right: 48px;
+        height: fit-content;
+    }
+}

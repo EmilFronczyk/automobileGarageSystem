@@ -8,9 +8,10 @@ import {Avatar, IconButton, TableCell, TableRow} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CustomDialog from "../customDialog/CustomDialog";
-import AddEditWorkerModal from "../addEditWorkerModal/AddEditWorkerModal";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import AddEditClientModal from "../addEditClientModal/AddEditClientModal";
+import "./ClientPage.css";
 
 export type ClientFormData = {
     id: number,
@@ -142,7 +143,7 @@ const ClientsPage = () => {
             <HeaderComponent label="Klienci" data={data} value={value} onOpen={() => {
                 setOpenAddClientWindow(true)
             }} buttonText="Dodaj klienta" setClientValue={setValue} type="client"/>
-            <TableContainerComponent headers={headers} className="workerTableContainer">
+            <TableContainerComponent headers={headers} className="clientTableContainer">
                 {data.map((row) => (
                     <TableRow
                         key={row.id}
@@ -150,7 +151,7 @@ const ClientsPage = () => {
                         className="table"
                         onClick={() => console.log("kliknelo sie na wiersz")}
                     >
-                        <TableCell className="workerNameCell" component="th" scope="row">
+                        <TableCell className="clientNameCell" component="th" scope="row">
                             <Avatar
                                 {...stringAvatar(row.firstName + " " + row.lastName)}
                             />
@@ -194,13 +195,13 @@ const ClientsPage = () => {
             <CustomDialog open={openDeleteWindow} onClose={() => setOpenDeleteWindow(false)}
                           onSubmit={() => onDeleteClick(clientIdToDelete || 0)} title={"Usunięcie klienta"}
                           text={"Czy jesteś pewien, że chcesz usunąć tego klienta?"}/>
-            {/*<AddEditWorkerModal open={openAddClientWindow} onClose={() => setOpenAddClientWindow(false)}*/}
-            {/*                    onSubmit={onAddClick} title={"Dodanie nowego klienta"}/>*/}
-            {/*<AddEditWorkerModal open={openEditClientWindow} onClose={() => {*/}
-            {/*    setOpenEditClientWindow(false);*/}
-            {/*    setClientIdToEdit(null);*/}
-            {/*}}*/}
-            {/*                    onSubmit={onEditSubmit} title={"Edytowanie klienta"} data={client}/>*/}
+            <AddEditClientModal open={openAddClientWindow} onClose={() => setOpenAddClientWindow(false)}
+                                onSubmit={onAddClick} title={"Dodanie nowego klienta"}/>
+            <AddEditClientModal open={openEditClientWindow} onClose={() => {
+                setOpenEditClientWindow(false);
+                setClientIdToEdit(null);
+            }}
+                                onSubmit={onEditSubmit} title={"Edytowanie klienta"} data={client}/>
             <Snackbar open={openAlert} autoHideDuration={6000} onClose={() => setOpenAlert(false)}>
                 <Alert
                     onClose={() => setOpenAlert(false)}

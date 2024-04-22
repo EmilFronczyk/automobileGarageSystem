@@ -9,6 +9,7 @@ import WorkersPage from "./components/workersPage/WorkersPage";
 import ClientsPage from "./components/clientsPage/ClientsPage";
 import RepairsPage from "./components/repairsPage/RepairsPage";
 import CarsPage from "./components/carsPage/CarsPage";
+import WarehousePage from "./components/warehousePage/WarehousePage";
 
 function App() {
     return (
@@ -18,7 +19,7 @@ function App() {
                     <Route path="/" element={<LoginPage/>}/>
                     <Route path="/desktop" element={<DesktopPage/>}/>
                     <Route path="/workers" element={<WorkersPage/>}/>
-                    <Route path="/warehouse" element={<WorkersPage/>}/>
+                    <Route path="/warehouse" element={<WarehousePage/>}/>
                     <Route path="/clients" element={<ClientsPage/>}/>
                     <Route path="/repairs" element={<RepairsPage/>}/>
                     <Route path="/cars" element={<CarsPage/>}/>

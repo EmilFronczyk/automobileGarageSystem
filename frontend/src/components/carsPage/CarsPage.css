@@ -1,4 +1,4 @@
-.clientTableContainer {
+.carTableContainer {
     width: 95% !important;
     margin-left: auto;
     margin-right: auto;
@@ -8,7 +8,7 @@
 }
 
 .table {
-    .clientNameCell {
+    .carNameCell {
         display: flex !important;
         align-items: center;
         min-height: 45px;
@@ -24,7 +24,7 @@
 
 .table {
     &:first-child {
-        .clientNameCell {
+        .carNameCell {
             border-top: 0 !important;
         }
     }
@@ -45,7 +45,7 @@
 }
 
 
-.addClientWindow {
+.addCarWindow {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -55,7 +55,7 @@
     background: lightgray;
     padding-top: 5px;
 
-    .addClientDiv {
+    .addCarDiv {
         display: grid;
         grid-template-columns: auto auto;
         padding: 10px 10px 40px 10px;
@@ -65,7 +65,7 @@
 }
 
 
-.firstNameInput, .lastNameInput, .contactInput {
+.markInput, .modelInput, .registrationInput, .nr_vinInput, .clientInputEdit {
     margin-bottom: 30px;
     background-color: #b0b0b040;
     border-radius: 15px;
@@ -77,20 +77,42 @@
     display: flex;
 }
 
+.clientInputAdd {
+    margin-bottom: 30px;
+    border-radius: 40px;
+    height: 35px;
+    padding: 0 5px;
+    width: 290px;
+    margin-left: 35px;
+    margin-right: auto;
+    display: flex;
+}
 
-#firstName-helper-text, #lastName-helper-text, #contact-helper-text {
+.statusInput {
+    margin-bottom: 30px;
+    border-radius: 15px;
+    height: 35px;
+    padding: 0 5px;
+    width: 260px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+
+#mark-helper-text, #model-helper-text, #status-helper-text, #registration-helper-text, #nr_vin-helper-text, #client-helper-text {
     margin-top: -2px !important;
     margin-bottom: -18px !important;
 }
 
-.addClientTextInfo {
+.addCarTextInfo {
     font-weight: bolder;
     font-size: 25px;
     margin-left: 48px;
     color: #40A2D8;
 }
 
-.addClientSubmitButtons {
+.addCarSubmitButtons {
     justify-content: flex-end;
     display: flex;
     margin-right: 48px;
@@ -127,4 +149,42 @@
         margin-right: 48px;
         height: fit-content;
     }
+}
+
+
+.carGreen {
+    & td {
+        color: green !important;
+        font-weight: bolder;
+        margin-left: auto;
+        margin-right: 50px;
+    }
+}
+
+.carRed {
+    color: darkred;
+    font-weight: bolder;
+    margin-left: auto;
+    margin-right: 50px;
+}
+
+.clientFormInput {
+    margin-bottom: 30px;
+    border-radius: 40px;
+    height: 35px;
+    padding: 0 5px;
+    width: 270px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+
+}
+
+.MuiSelect-select {
+    height: 10px !important;
+    padding: 13px 10px !important;
+}
+
+.MuiInputBase-root {
+    border-radius: 40px !important;
 }

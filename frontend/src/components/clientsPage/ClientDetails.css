@@ -1,0 +1,51 @@
+.clientDetailsModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 400px;
+    width: 700px;
+    background: lightgray;
+    padding-top: 5px;
+    padding-bottom: 20px;
+}
+
+.clientDetailsDiv {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px 50px 10px 50px;
+}
+
+.infoContainer {
+    .title {
+        font-size: 14px;
+        color: #595858;
+    }
+
+    .text {
+        margin-top: -10px;
+        font-size: 18px;
+    }
+}
+
+.carDetails {
+    display: flex;
+}
+
+.carGreen {
+    color: green;
+    font-weight: bolder;
+    margin-left: auto;
+    margin-right: 50px;
+}
+
+.carRed {
+    color: darkred;
+    font-weight: bolder;
+    margin-left: auto;
+    margin-right: 50px;
+}
+
+.carsContainer {
+    margin-left: 50px;
+}

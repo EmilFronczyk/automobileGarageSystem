@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/repairs")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RepairController {
 
     private final RepairService repairService;

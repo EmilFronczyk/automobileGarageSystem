@@ -6,6 +6,7 @@ import com.example.engineeringThesis.automobileGarageSystem.dto.CarDTO;
 import com.example.engineeringThesis.automobileGarageSystem.dto.ClientDTO;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Car;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Client;
+import com.example.engineeringThesis.automobileGarageSystem.entity.Repair;
 import com.example.engineeringThesis.automobileGarageSystem.mapper.CarMapper;
 import com.example.engineeringThesis.automobileGarageSystem.mapper.ClientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,12 @@ public class CarServiceImpl implements CarService{
     @Override
     public CarDTO getCarById(Integer id) {
         Car car =  carDAO.findById(id);
-        return CarMapper.INSTANCE.carToCarDTO(car);
+        if (car == null) {
+            return null;
+        }
+        CarDTO carDTO = CarMapper.INSTANCE.carToCarDTO(car);
+        carDTO.setRepairs(filerCarRepairs(id));
+        return carDTO;
     }
 
     @Override
@@ -46,6 +52,9 @@ public class CarServiceImpl implements CarService{
     @Override
     public List<CarDTO> getAllCars() {
         List<Car> cars = carDAO.findAll();
+        cars.forEach(car -> {
+            car.setRepairs(filerCarRepairs(car.getId()));
+        });
         return cars.stream()
                 .map(carMapper::carToCarDTO)
                 .collect(Collectors.toList());
@@ -64,6 +73,19 @@ public class CarServiceImpl implements CarService{
         car.setStatus(carDTO.isStatus());
         carDAO.update(car);
         return carDTO;
+    }
+
+    @Override
+    public List<Repair> filerCarRepairs(Integer id) {
+        List<Repair> carsRepairs = carDAO.findRepairByCarId(id);
+        return carsRepairs.stream()
+                .map(repair -> {
+                    Repair filteredRepair = new Repair();
+                    filteredRepair.setTitle(repair.getTitle());
+                    filteredRepair.setDate(repair.getDate());
+                    return filteredRepair;
+                })
+                .toList();
     }
 
 

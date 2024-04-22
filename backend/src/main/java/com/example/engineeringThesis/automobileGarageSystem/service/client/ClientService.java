@@ -13,9 +13,10 @@ public interface ClientService {
 
     List<ClientDTO> getAllClients();
 
-    public List<Car> filerClientCars(Integer id);
+    List<Car> filerClientCars(Integer id);
 
     String deleteClientById(Integer id);
 
     ClientDTO updateClient(ClientDTO clientDTO);
+
 }

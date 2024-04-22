@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cars")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CarController {
 
     private final CarService carService;
@@ -20,7 +21,6 @@ public class CarController {
     }
 
     @GetMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public CarDTO getCarById(@PathVariable Integer id) {
         return carService.getCarById(id);
     }
@@ -31,7 +31,6 @@ public class CarController {
     }
 
     @GetMapping("/all")
-    @CrossOrigin(origins = "http://localhost:3000")
     public List<CarDTO> getAllCars() {
         return carService.getAllCars();
     }

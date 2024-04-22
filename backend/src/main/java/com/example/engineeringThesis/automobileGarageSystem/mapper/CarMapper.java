@@ -19,6 +19,7 @@ public interface CarMapper {
     @Mapping(source = "registration", target = "registration")
     @Mapping(source = "nr_vin", target = "nr_vin")
     @Mapping(source = "client", target = "client", qualifiedByName = "concatenateName")
+    @Mapping(source = "repairs", target = "repairs")
     CarDTO carToCarDTO(Car car);
 
     @Mapping(source = "mark", target = "mark")
@@ -27,6 +28,7 @@ public interface CarMapper {
     @Mapping(source = "registration", target = "registration")
     @Mapping(source = "nr_vin", target = "nr_vin")
     @Mapping(target = "client", ignore = true)
+    @Mapping(source = "repairs", target = "repairs")
     Car carDTOToCar(CarDTO carDTO);
 
     @Named("concatenateName")

@@ -10,4 +10,5 @@ public interface WorkerDAO {
     void update(Worker theWorker);
     void delete(Integer id);
     Worker findWorkerByName(String name);
+    List<Worker> findCAllOccupiedWorkers ();
 }

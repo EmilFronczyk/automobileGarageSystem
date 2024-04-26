@@ -1,6 +1,7 @@
 package com.example.engineeringThesis.automobileGarageSystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,7 +29,8 @@ public class Parts {
     @Column(name = "Cena")
     private int price;
 
-    @OneToMany(mappedBy = "part")
+    @OneToMany(mappedBy = "part", cascade = {CascadeType.ALL})
+    @JsonIgnore
     List<PartsInRepair> partsUsed;
 
     public Parts() {}

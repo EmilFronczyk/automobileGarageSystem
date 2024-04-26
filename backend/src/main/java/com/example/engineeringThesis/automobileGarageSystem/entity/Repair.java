@@ -1,11 +1,14 @@
 package com.example.engineeringThesis.automobileGarageSystem.entity;
 
+import com.example.engineeringThesis.automobileGarageSystem.dao.parts.PartsDAO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.SerializationUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,8 +36,10 @@ public class Repair {
     @JsonIgnore
     private Worker worker;
 
-    @OneToMany(mappedBy = "repair")
-    List<PartsInRepair> partsUsed;
+    @OneToMany(mappedBy = "repair", cascade = {CascadeType.ALL})
+    @JsonIgnore
+    private List<PartsInRepair> amountOfPartsUsed;
+
 
     public Repair() {}
 
@@ -53,5 +58,14 @@ public class Repair {
                 '}';
     }
 
+    public void addPart(Parts tmpPart, int amount) {
+        if(amountOfPartsUsed == null) {
+            amountOfPartsUsed = new ArrayList<>();
+        }
+        PartsInRepair partsInRepair = new PartsInRepair(this, tmpPart, amount);
+        amountOfPartsUsed.add(partsInRepair);
+        tmpPart.setAmount(tmpPart.getAmount()-amount);
+    }
 
 }
+

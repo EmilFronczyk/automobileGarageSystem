@@ -59,4 +59,11 @@ public class WorkerDAOImpl implements WorkerDAO {
         theQuery.setParameter("lastName", lastName);
         return theQuery.getSingleResult();
     }
+
+    @Override
+    public List<Worker> findCAllOccupiedWorkers() {
+        TypedQuery<Worker> theQuery = entityManager.createQuery("SELECT w from Worker w join w.repairs r " +
+                "join r.car c where c.status = true ", Worker.class);
+        return theQuery.getResultList();
+    }
 }

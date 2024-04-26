@@ -30,6 +30,11 @@ public class RepairController {
         return repairService.addNewRepair(repairDTO);
     }
 
+    @PutMapping()
+    public RepairDTO updateRepair(@RequestBody RepairDTO repairDTO) {
+        return repairService.updateRepair(repairDTO);
+    }
+
     @GetMapping("/all")
     public List<RepairDTO> getAllRepairs() {
         return repairService.getAllRepairs();

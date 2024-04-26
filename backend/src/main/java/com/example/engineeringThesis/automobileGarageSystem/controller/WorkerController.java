@@ -35,6 +35,11 @@ public class  WorkerController {
         return workerService.getAllWorkers();
     }
 
+    @GetMapping("/allOccupied")
+    public List<WorkerDTO> getAllOccupiedWorkers() {
+        return workerService.getAllOccupiedWorkers();
+    }
+
     @DeleteMapping("/{id}")
     public String deleteWorkerById(@PathVariable Integer id) {
         return workerService.deleteWorkerById(id);

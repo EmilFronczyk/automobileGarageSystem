@@ -27,4 +27,14 @@ public class PartsInRepair {
 
     @Column(name = "ilosc_uzytych_czesci")
     private int amountOfUsedParts;
+
+    public PartsInRepair () {}
+
+    public PartsInRepair( Repair repair, Parts part, int amountOfUsedParts) {
+        this.id = new PartsInRepairKey(repair.getId(), part.getId());
+        this.repair = repair;
+        this.part = part;
+        this.amountOfUsedParts = amountOfUsedParts;
+    }
+
 }

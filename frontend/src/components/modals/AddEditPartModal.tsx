@@ -95,6 +95,15 @@ const AddEditPartModal = ({open, title, onClose, onSubmit, data}: addEditPartMod
                                    error={!!errors.catalogNumber}
                                    helperText={errors.catalogNumber?.message}/>
                     </Box>
+                    <Box className="priceInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
+                        <TextField id="price" label="Cena"
+                                   variant="standard" InputProps={{
+                            disableUnderline: true
+                        }} {...register("price")} type="number" defaultValue={data?.price}
+                                   error={!!errors.price}
+                                   helperText={errors.price?.message}
+                                   sx={{marginLeft: 1.5}}/>
+                    </Box>
                     <Box className="amountInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <Button className="minusButtonClass" onClick={() => setAmount(amount - 1)}
                         > - </Button>
@@ -108,15 +117,6 @@ const AddEditPartModal = ({open, title, onClose, onSubmit, data}: addEditPartMod
                                    error={!!errors.amount}
                                    helperText={errors.amount?.message}/>
                         <Button className="plusButtonClass" onClick={() => setAmount(amount + 1)}> + </Button>
-                    </Box>
-                    <Box className="priceInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
-                        <TextField id="price" label="Cena"
-                                   variant="standard" InputProps={{
-                            disableUnderline: true
-                        }} {...register("price")} type="number" defaultValue={data?.price}
-                                   error={!!errors.price}
-                                   helperText={errors.price?.message}
-                                   sx={{marginLeft: 1.5}}/>
                     </Box>
                 </div>
                 <div className="addPartSubmitButtons">

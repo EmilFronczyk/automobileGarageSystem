@@ -1,8 +1,7 @@
-import "./CarsPage.css"
+import "./CarsPage.css";
 import {RepairToCarData} from "../repairsPage/RepairsPage";
 import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
-import {ClientData, ClientFormData} from "../clientsPage/ClientsPage";
 import HeaderComponent from "../headerComponent/HeaderComponent";
 import TableContainerComponent from "../tableContainer/TableContainerComponent";
 import {Avatar, IconButton, TableCell, TableRow} from "@mui/material";
@@ -10,12 +9,12 @@ import {stringAvatar} from "../../reusableFunctions/ReusableFunctions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CustomDialog from "../customDialog/CustomDialog";
-import AddEditClientModal from "../modals/AddEditClientModal";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import ClientDetails from "../clientsPage/ClientDetails";
 import AddEditCarModal from "../modals/AddEditCarModal";
 import CarDetails, {checkStatus} from "./CarsDetails";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export type CarToClientData = {
     id: number,
@@ -65,9 +64,6 @@ const CarsPage = () => {
     const headers = ["Marka", "Model", "Numer rejestracyjny", "Status naprawy", ""];
 
     const {
-        register,
-        handleSubmit,
-        watch,
         reset,
         formState: {errors},
     } = useForm<CarFormData>()
@@ -139,7 +135,7 @@ const CarsPage = () => {
                 id: carIdToEdit,
                 mark: car?.mark,
                 model: car?.model,
-                registration: car?.registration,
+                registration: data.registration,
                 nr_vin: car?.nr_vin,
                 status: data.status
             })
@@ -166,6 +162,8 @@ const CarsPage = () => {
         }
     }, [openEditCarWindow, openDeleteWindow]);
 
+    console.log(data)
+
     return (
         <>
             <HeaderComponent label="Samochody" data={data} value={value} onOpen={() => {
@@ -190,8 +188,11 @@ const CarsPage = () => {
                         </TableCell>
                         <TableCell align="right">{row.model}</TableCell>
                         <TableCell align="right">{row.registration}</TableCell>
-                        <TableCell sx={{color: row?.status ? "green" : "darkred", fontWeight: "bolder"}} align="right">
-                            {checkStatus(row?.status || false)}
+                        <TableCell className="statusRow"
+                                   sx={{color: row?.status ? "green" : "darkred", fontWeight: "bolder"}} align="right">
+                            {row?.status ? <CheckCircleIcon className="statusIcon"/> :
+                                <CancelIcon className="statusIcon"/>}
+                            <p>{checkStatus(row?.status || false)}</p>
                         </TableCell>
                         <TableCell align="right">
                             <IconButton

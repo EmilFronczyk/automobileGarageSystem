@@ -119,7 +119,6 @@ const AddEditCarModal = ({open, title, onClose, onSubmit, data}: addEditCarModal
                         }} {...register("registration")} type="tel" defaultValue={data?.registration}
                                    error={!!errors.registration}
                                    helperText={errors.registration?.message}
-                                   disabled={!!data}
                                    sx={{marginLeft: 1.5}}/>
                     </Box>
                     <Box className="nr_vinInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
@@ -143,9 +142,11 @@ const AddEditCarModal = ({open, title, onClose, onSubmit, data}: addEditCarModal
                                    disabled={!!data}
                                    required={!!data}
                                    sx={{marginLeft: 1.5}}/>
-                    </Box> : <Box className="clientInputAdd" sx={{display: 'flex', alignItems: 'flex-end'}}>
+                    </Box> : <Box className="clientInputAdd"
+                                  sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <FormControl className="clientFormInput" required sx={{m: 1, minWidth: 120}}>
-                            <InputLabel id="demo-simple-select-required-label">Klienci</InputLabel>
+                            <InputLabel className="selectInput"
+                                        id="demo-simple-select-required-label">Klienci</InputLabel>
                             <Select
                                 labelId="demo-simple-select-required-label"
                                 id="demo-simple-select-required"
@@ -163,7 +164,7 @@ const AddEditCarModal = ({open, title, onClose, onSubmit, data}: addEditCarModal
                             </Select>
                         </FormControl>
                     </Box>}
-                    <Box className="statusInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
+                    <Box className="statusInput" sx={{display: 'flex', alignItems: 'flex-end', color: '#595858'}}>
                         <FormControlLabel control={<Checkbox defaultChecked={data?.status}/>}
                                           label="W naprawie" {...register("status")}/>
                     </Box>

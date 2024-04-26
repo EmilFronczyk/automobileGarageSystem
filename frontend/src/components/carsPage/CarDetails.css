@@ -28,8 +28,14 @@
     }
 }
 
+.historyTitle {
+    font-size: 16px;
+    color: #595858;
+}
+
 .carDetails {
     display: flex;
+    width: 90%;
 }
 
 .carGreen {
@@ -37,6 +43,13 @@
     font-weight: bolder;
     margin-left: auto;
     margin-right: 50px;
+    display: flex;
+    height: 30px;
+
+    p {
+        margin-top: 2px;
+        margin-left: 3px;
+    }
 }
 
 .carRed {
@@ -44,6 +57,13 @@
     font-weight: bolder;
     margin-left: auto;
     margin-right: 50px;
+    display: flex;
+    height: 30px;
+
+    p {
+        margin-top: 2px;
+        margin-left: 3px;
+    }
 }
 
 .carsContainer {

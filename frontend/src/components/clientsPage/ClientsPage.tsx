@@ -30,6 +30,10 @@ export type ClientData = {
     cars: CarToClientData[]
 }
 
+export const getNumberOfCarsInRepair = (clientId: number, data: ClientData[]): number => {
+    return data.find((client) => client.id === clientId)?.cars.length || 0;
+}
+
 const ClientsPage = () => {
 
     const [value, setValue] = useState<ClientData | null>(null);
@@ -140,10 +144,6 @@ const ClientsPage = () => {
         }
     }, [clientIdToEdit, client]);
 
-    const getNumberOfCarsInRepair = (clientId: number): number => {
-        return data.find((client) => client.id === clientId)?.cars.length || 0;
-    }
-
     useEffect(() => {
         if (openEditClientWindow || openDeleteWindow) {
             setClientDetailsWindow(false);
@@ -174,7 +174,7 @@ const ClientsPage = () => {
                         </TableCell>
                         <TableCell align="right">{row.lastName}</TableCell>
                         <TableCell align="right">{row.phoneNumber}</TableCell>
-                        <TableCell align="right">{getNumberOfCarsInRepair(row.id)}</TableCell>
+                        <TableCell align="right">{getNumberOfCarsInRepair(row.id, data)}</TableCell>
                         <TableCell align="right">
                             <IconButton
                                 color="inherit"

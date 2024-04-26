@@ -124,7 +124,7 @@ const WarehousePage = () => {
 
     return (
         <>
-            <HeaderComponent label="Pracownicy" data={data} value={value} onOpen={() => {
+            <HeaderComponent label="Części" data={data} value={value} onOpen={() => {
                 setOpenAddPartWindow(true)
             }} buttonText="Dodaj część" setPartValue={setValue} type="part"/>
             <TableContainerComponent headers={headers} className="partTableContainer">

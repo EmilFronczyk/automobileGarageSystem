@@ -6,6 +6,8 @@ import React from "react";
 import "./CarDetails.css";
 import BuildIcon from '@mui/icons-material/Build';
 import {CarData} from "./CarsPage";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 type CarDetailsProps = {
     open: boolean,
@@ -86,19 +88,21 @@ const CarDetails = ({open, car, title, onClose}: CarDetailsProps) => {
                             Status
                         </p>
                         <p className={car?.status ? "carGreen text" : "carRed text"}>
-                            {checkStatus(car?.status || false)}
+                            {car?.status ? <CheckCircleIcon className="statusIcon"/> :
+                                <CancelIcon className="statusIcon"/>}
+                            <p>{checkStatus(car?.status || false)}</p>
                         </p>
                     </div>
                 </div>
                 <div className="carsContainer">
-                    <p className="title">
+                    <p className="historyTitle">
                         Historia napraw
                     </p>
                     {car?.repairs.map((repair) =>
                         <div className="carDetails">
                             <BuildIcon sx={{color: "#729eda", paddingTop: 2, marginRight: 2}}/>
                             <p>
-                                {repair.date} {repair.title}
+                                {repair.date} - {repair.title}
                             </p>
                         </div>
                     )}

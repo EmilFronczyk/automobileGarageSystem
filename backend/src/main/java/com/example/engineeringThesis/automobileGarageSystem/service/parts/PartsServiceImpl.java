@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PartsServiceImpl implements PartsService{
@@ -49,6 +51,14 @@ public class PartsServiceImpl implements PartsService{
         PartsDTO partsDTO = PartsMapper.INSTANCE.partsToPartsDTO(partsDAO.findById(id));
         partsDAO.deleteById(id);
         return "Deleted part : " + partsDTO.getPartName();
+    }
+
+    @Override
+    public List<PartsDTO> getAllParts() {
+        List<Parts> parts = partsDAO.findAll();
+        return parts.stream()
+                .map(partsMapper::partsToPartsDTO)
+                .collect(Collectors.toList());
     }
 
 

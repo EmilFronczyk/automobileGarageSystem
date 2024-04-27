@@ -1,6 +1,7 @@
 package com.example.engineeringThesis.automobileGarageSystem.dao.repair;
 
 import com.example.engineeringThesis.automobileGarageSystem.entity.Car;
+import com.example.engineeringThesis.automobileGarageSystem.entity.Parts;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Repair;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Worker;
 import jakarta.persistence.EntityManager;
@@ -63,4 +64,5 @@ public class RepairDAOImpl implements RepairDAO {
         theQuery.setParameter("data", id);
         return theQuery.getSingleResult();
     }
+
 }

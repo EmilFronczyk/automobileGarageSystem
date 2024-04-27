@@ -24,6 +24,7 @@ public class ClientServiceImpl implements ClientService{
         this.clientDAO = clientDAO;
     }
 
+    @Override
     public List<Car> filerClientCars(Integer id) {
         List<Car> clientsCars = clientDAO.findCarByClientId(id);
         return clientsCars.stream()
@@ -32,6 +33,7 @@ public class ClientServiceImpl implements ClientService{
                     filteredCar.setMark(car.getMark());
                     filteredCar.setModel(car.getModel());
                     filteredCar.setStatus(car.isStatus());
+                    filteredCar.setRegistration(car.getRegistration());
                     return filteredCar;
                 })
                 .toList();

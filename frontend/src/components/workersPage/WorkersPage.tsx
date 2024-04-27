@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useForm} from "react-hook-form";
 import CustomDialog from "../customDialog/CustomDialog";
-import AddEditWorkerModal from "../addEditWorkerModal/AddEditWorkerModal";
+import AddEditWorkerModal from "../modals/AddEditWorkerModal";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import TableContainerComponent from "../tableContainer/TableContainerComponent";
@@ -26,7 +26,7 @@ export type WorkerData = {
     id: number,
     firstName: string,
     lastName: string,
-    position: string,        
+    position: string,
     payRate: number,
     phoneNumber: string,
     hireDate: string
@@ -49,9 +49,6 @@ const WorkersPage = () => {
     const headers = ["Pracownik", "Stanowisko", "Numer telefonu", "Data zatrudnienia", "Stawka (zł/h)", ""];
 
     const {
-        register,
-        handleSubmit,
-        watch,
         reset,
         formState: {errors},
     } = useForm<WorkerData>()

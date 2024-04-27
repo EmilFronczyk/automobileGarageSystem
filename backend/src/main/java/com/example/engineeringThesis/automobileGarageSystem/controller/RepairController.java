@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/repairs")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RepairController {
 
     private final RepairService repairService;
@@ -27,6 +28,11 @@ public class RepairController {
     @PostMapping()
     public RepairDTO addRepair(@RequestBody RepairDTO repairDTO) {
         return repairService.addNewRepair(repairDTO);
+    }
+
+    @PutMapping()
+    public RepairDTO updateRepair(@RequestBody RepairDTO repairDTO) {
+        return repairService.updateRepair(repairDTO);
     }
 
     @GetMapping("/all")

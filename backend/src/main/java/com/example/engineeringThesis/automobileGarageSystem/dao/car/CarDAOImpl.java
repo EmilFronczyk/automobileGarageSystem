@@ -3,6 +3,7 @@ package com.example.engineeringThesis.automobileGarageSystem.dao.car;
 import com.example.engineeringThesis.automobileGarageSystem.dto.CarDTO;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Car;
 import com.example.engineeringThesis.automobileGarageSystem.entity.Client;
+import com.example.engineeringThesis.automobileGarageSystem.entity.Repair;
 import com.example.engineeringThesis.automobileGarageSystem.mapper.CarMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -66,5 +67,13 @@ public class CarDAOImpl implements CarDAO {
         TypedQuery<Car> theQuery = entityManager.createQuery("SELECT c FROM Car c WHERE c.registration = :data", Car.class);
         theQuery.setParameter("data", registration);
         return theQuery.getSingleResult();
+    }
+
+    @Override
+    public List<Repair> findRepairByCarId(Integer id) {
+        TypedQuery<Repair> theQuery = entityManager.createQuery("SELECT c.repairs FROM Car c WHERE c.id = :data", Repair.class);
+        theQuery.setParameter("data", id);
+        System.out.println(theQuery.getResultList());
+        return theQuery.getResultList();
     }
 }

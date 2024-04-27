@@ -60,4 +60,14 @@ public class WorkerServiceImpl implements  WorkerService {
         return workerDTO;
 
     }
+
+    @Override
+    public List<WorkerDTO> getAllOccupiedWorkers() {
+        List<Worker> workers = workerDAO.findCAllOccupiedWorkers();
+        return workers.stream()
+                .map((workerMapper::workerToWorkerDTO))
+                .collect(Collectors.toList());
+    }
+
+
 }

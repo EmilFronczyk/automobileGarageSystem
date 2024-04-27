@@ -12,6 +12,7 @@ public interface RepairService {
 
     List<RepairDTO> getAllRepairs();
 
-    //RepairDTO updateRepair()
+    RepairDTO updateRepair(RepairDTO repairDTO);
     String deleteRepairById(Integer id);
+
 }

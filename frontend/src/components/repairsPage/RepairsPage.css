@@ -1,4 +1,4 @@
-.clientTableContainer {
+.repairTableContainer {
     width: 95% !important;
     margin-left: auto;
     margin-right: auto;
@@ -12,7 +12,7 @@
 }
 
 .table {
-    .clientNameCell {
+    .repairNameCell {
         display: flex !important;
         align-items: center;
         min-height: 45px;
@@ -21,14 +21,9 @@
     }
 }
 
-.table:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-}
-
 .table {
     &:first-child {
-        .clientNameCell {
+        .repairNameCell {
             border-top: 0 !important;
         }
     }
@@ -49,7 +44,7 @@
 }
 
 
-.addClientWindow {
+.addRepairWindow {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -59,17 +54,15 @@
     background: lightgray;
     padding-top: 5px;
 
-    .addClientDiv {
+    .addRepairDiv {
         display: grid;
         grid-template-columns: auto auto;
         padding: 10px 10px 40px 10px;
         height: 200px;
     }
-
 }
 
-
-.firstNameInput, .lastNameInput, .contactInput {
+.partNameInput, .catalogNumberInput, .priceInput {
     margin-bottom: 30px;
     background-color: #b0b0b040;
     border-radius: 15px;
@@ -81,24 +74,44 @@
     display: flex;
 }
 
-.firstNameInput:hover, .lastNameInput:hover, .contactInput:hover {
+.partNameInput:hover, .catalogNumberInput:hover, .priceInput:hover {
     background-color: #729eda30;
 }
 
+.amountInput {
+    margin-bottom: 30px;
+    background-color: #b0b0b040;
+    border-radius: 15px;
+    height: 35px;
+    width: 150px;
+    margin-left: 35px;
+    margin-right: auto;
+    display: flex;
 
-#firstName-helper-text, #lastName-helper-text, #contact-helper-text {
+    .MuiTextField-root {
+        margin-left: 0 !important;
+
+    }
+
+    #amount {
+        text-align: center;
+    }
+}
+
+
+#partName-helper-text, #catalogNumber-helper-text, #amountInput-helper-text, #priceInput-helper-text {
     margin-top: -2px !important;
     margin-bottom: -18px !important;
 }
 
-.addClientTextInfo {
+.addPartTextInfo {
     font-weight: bolder;
     font-size: 25px;
     margin-left: 48px;
     color: #40A2D8;
 }
 
-.addClientSubmitButtons {
+.addPartSubmitButtons {
     justify-content: flex-end;
     display: flex;
     margin-right: 48px;
@@ -135,4 +148,18 @@
         margin-right: 48px;
         height: fit-content;
     }
+}
+
+.plusButtonClass, .minusButtonClass {
+    background-color: #40A2D8 !important;
+    border-radius: 50% !important;
+    height: 35px !important;
+    width: 35px !important;
+    min-width: 35px !important;
+    padding: 0;
+    color: white !important;
+}
+
+.plusButtonClass:hover, .minusButtonClass:hover {
+    background-color: #3184af !important;
 }

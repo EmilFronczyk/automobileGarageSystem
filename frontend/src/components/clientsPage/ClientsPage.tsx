@@ -10,8 +10,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import CustomDialog from "../customDialog/CustomDialog";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import AddEditClientModal from "../addEditClientModal/AddEditClientModal";
+import AddEditClientModal from "../modals/AddEditClientModal";
 import "./ClientPage.css";
+import ClientDetails from "./ClientDetails";
 
 export type ClientFormData = {
     id: number,
@@ -29,6 +30,10 @@ export type ClientData = {
     cars: CarToClientData[]
 }
 
+export const getNumberOfCarsInRepair = (clientId: number, data: ClientData[]): number => {
+    return data.find((client) => client.id === clientId)?.cars.length || 0;
+}
+
 const ClientsPage = () => {
 
     const [value, setValue] = useState<ClientData | null>(null);
@@ -38,10 +43,12 @@ const ClientsPage = () => {
     const [openDeleteWindow, setOpenDeleteWindow] = useState(false);
     const [clientIdToDelete, setClientIdToDelete] = useState<number | null>(null);
     const [clientIdToEdit, setClientIdToEdit] = useState<number | null>(null);
+    const [clientToViewDetails, setClientToViewDetails] = useState<ClientData | null>(null);
     const [openAddClientWindow, setOpenAddClientWindow] = useState(false);
     const [openEditClientWindow, setOpenEditClientWindow] = useState(false);
     const [client, setClient] = useState<ClientData | null>(null);
     const [openAlert, setOpenAlert] = useState(false);
+    const [clientDetailsWindow, setClientDetailsWindow] = useState(false);
 
     const headers = ["Imię", "Nazwisko", "Numer telefonu", "Samochody w naprawie", ""];
 
@@ -75,7 +82,7 @@ const ClientsPage = () => {
     }, []);
 
     useEffect(() => {
-        setClient(data?.find((worker) => worker?.id === clientIdToEdit) || null);
+        setClient(data?.find((client) => client?.id === clientIdToEdit) || null);
     }, [data, clientIdToEdit]);
 
     const onDeleteClick = async (clientId: number) => {
@@ -116,7 +123,10 @@ const ClientsPage = () => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                firstName: client?.firstName, lastName: client?.lastName, phoneNumber: data.phoneNumber
+                id: clientIdToEdit,
+                firstName: client?.firstName,
+                lastName: client?.lastName,
+                phoneNumber: data.phoneNumber
             })
         }).then(() => {
             fetchInfo();
@@ -134,9 +144,11 @@ const ClientsPage = () => {
         }
     }, [clientIdToEdit, client]);
 
-    const getNumberOfCarsInRepair = (clientId: number): number => {
-        return data.find((client) => client.id === clientId)?.cars.length || 0;
-    }
+    useEffect(() => {
+        if (openEditClientWindow || openDeleteWindow) {
+            setClientDetailsWindow(false);
+        }
+    }, [openEditClientWindow, openDeleteWindow]);
 
     return (
         <>
@@ -149,7 +161,10 @@ const ClientsPage = () => {
                         key={row.id}
                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         className="table"
-                        onClick={() => console.log("kliknelo sie na wiersz")}
+                        onClick={() => {
+                            setClientToViewDetails(row);
+                            setClientDetailsWindow(true);
+                        }}
                     >
                         <TableCell className="clientNameCell" component="th" scope="row">
                             <Avatar
@@ -159,7 +174,7 @@ const ClientsPage = () => {
                         </TableCell>
                         <TableCell align="right">{row.lastName}</TableCell>
                         <TableCell align="right">{row.phoneNumber}</TableCell>
-                        <TableCell align="right">{getNumberOfCarsInRepair(row.id)}</TableCell>
+                        <TableCell align="right">{getNumberOfCarsInRepair(row.id, data)}</TableCell>
                         <TableCell align="right">
                             <IconButton
                                 color="inherit"
@@ -212,6 +227,9 @@ const ClientsPage = () => {
                     Operacja zakończona sukcesem!
                 </Alert>
             </Snackbar>
+            <ClientDetails open={clientDetailsWindow} onClose={() => setClientDetailsWindow(false)}
+                           title={"Szczegółowe informacje"}
+                           client={clientToViewDetails}/>
         </>
     );
 }

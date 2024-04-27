@@ -2,52 +2,42 @@ package com.example.engineeringThesis.automobileGarageSystem.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
+@Getter
+@Setter
 public class PartsInRepairKey implements Serializable {
     @Column(name = "id_naprawy")
-    private int repairId;
+    private Integer repairId;
 
     @Column(name = "id_czesci")
-    private int partId;
+    private Integer partId;
 
     public PartsInRepairKey() {
     }
 
-    public PartsInRepairKey(int repairId, int partId) {
+    public PartsInRepairKey(Integer repairId, Integer partId) {
         this.repairId = repairId;
         this.partId = partId;
     }
 
-    public int getRepairId() {
-        return repairId;
-    }
-
-    public void setRepairId(int repairId) {
-        this.repairId = repairId;
-    }
-
-    public int getPartId() {
-        return partId;
-    }
-
-    public void setPartId(int partId) {
-        this.partId = partId;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof PartsInRepairKey)) return false;
         PartsInRepairKey that = (PartsInRepairKey) o;
-        return repairId == that.repairId && partId == that.partId;
+        return Objects.equals(getPartId(), that.getPartId()) && Objects.equals(getRepairId(), that.repairId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(repairId, partId);
+        return Objects.hash(getRepairId(), getPartId());
     }
 }

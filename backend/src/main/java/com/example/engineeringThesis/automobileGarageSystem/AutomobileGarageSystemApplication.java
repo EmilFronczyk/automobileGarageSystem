@@ -33,7 +33,7 @@ public class AutomobileGarageSystemApplication {
 
 	private void createCarsAndWorkersWithRepairs(CarDAO carDAO, ClientDAO clientDAO, WorkerDAO workerDAO, RepairDAO repairDAO) {
 		Car tmpCar1 = new Car("1G1PC5SB1E7125694", "Mazda", "MX5", true, "WSD23456");
-		Worker tmpWorker1 = new Worker("Stanisław", "Świszczypała", "Mechanik", 30, "12/03/2018", "489126745");
+		Worker tmpWorker1 = new Worker("Stanisław", "Świszczypała", "Mechanik", 40, "12/03/2018", "489126745");
 		Repair tmpRepair1 = new Repair("Wymiana wałków rozrządu", "05/04/2024");
 		Client tmpClient1 = new Client("Emil", "Fronczyk", "456741589");
 		tmpCar1.addRepair(tmpRepair1);
@@ -44,29 +44,29 @@ public class AutomobileGarageSystemApplication {
 
 	private void createClientWithCars(CarDAO carDAO, ClientDAO clientDAO, WorkerDAO workerDAO, RepairDAO repairDAO, PartsDAO partsDAO) {
 		Car tmpCar1 = new Car("JTLZE4FE7A1116475", "Audi", "Q5", true, "WY45678");
-		Worker tmpWorker1 = new Worker("Jan", "Nowak", "Mechanik", 25, "12/03/2020", "123456789");
+		Worker tmpWorker1 = new Worker("Jan", "Nowak", "Mechanik", 10, "12/03/2020", "123456789");
 		Repair tmpRepair1 = new Repair("Wymiana oleju", "21/03/2024");
 		Client tmpClient1 = new Client("Beata", "Dziewulska", "456741589");
 
-		Car tmpCar2 = new Car("WBA3A5G59ENP31624", "Range Rover", "Discovery", true, "WPl90876");
+		Car tmpCar2 = new Car("WBA3A5G59ENP31624", "Range Rover", "Discovery", false, "WPl90876");
 
 		Car tmpCar3 = new Car("JTLZE4FE7A1116475", "Seat", "Leon", true, "WX34567");
-		Worker tmpWorker2 = new Worker("Adam", "Kowalski", "Mechanik", 25, "16/03/2020", "789456123");
-		Repair tmpRepair2 = new Repair("Wymiana kół", "29/02/2024");
+		Worker tmpWorker2 = new Worker("Adam", "Kowalski", "Mechanik", 50, "16/03/2020", "789456123");
+		Repair tmpRepair2 = new Repair("Wymiana kół", "29/04/2024");
 		Client tmpClient2 = new Client("Grzegorz", "Brzęczyszczykiewicz", "789456123");
 
 		Car tmpCar4 = new Car("WBA3A5G59ENP31624", "BMW", "E46", true, "WPR78945");
-		Worker tmpWorker3 = new Worker("Marek", "Papuga", "Magazynier", 25, "12/12/2015", "456789123");
+		Worker tmpWorker3 = new Worker("Marek", "Papuga", "Magazynier", 80, "12/12/2015", "456789123");
 		Repair tmpRepair3 = new Repair("Serwis klimatyzacji", "21/06/2021");
 		Client tmpClient3 = new Client("Malik", "Montana", "696321852");
 
 		Car tmpCar5 = new Car("1FMRU15W71LB90650", "Volvo", "XC60", true, "WI12345");
-		Worker tmpWorker4 = new Worker("Tomek", "Montana", "Kierowca", 25, "15/09/2006", "123789456");
-		Repair tmpRepair4 = new Repair("Wymiana rozrządu", "15/04/2020");
+		Worker tmpWorker4 = new Worker("Tomek", "Montana", "Kierowca", 15, "15/09/2006", "123789456");
+		Repair tmpRepair4 = new Repair("Wymiana rozrządu", "15/04/2024");
 		Client tmpClient4 = new Client("Michael", "Dzordan", "723901384");
 
 		Car tmpCar6 = new Car("1G2NE52TXYM815391", "Renault", "Clio", true, "WX78936");
-		Worker tmpWorker5 = new Worker("Waldek", "Kiepski", "Mechanik", 25, "19/03/2020", "533432198");
+		Worker tmpWorker5 = new Worker("Waldek", "Kiepski", "Mechanik", 60, "19/03/2020", "533432198");
 		Repair tmpRepair5 = new Repair("Nabicie klimatyzacji", "10/04/2013");
 		Client tmpClient5 = new Client("LeBron", "Jakub", "515212313");
 
@@ -79,10 +79,13 @@ public class AutomobileGarageSystemApplication {
 		Parts tmpPart2 = new Parts("789XYZA15", 40, 89, "Tarcza hamulcowa Brembo - przód");
 		Parts tmpPart3 = new Parts("456TYUN18", 5, 89, "Wałek rozrządu VAG");
 		Parts tmpPart4 = new Parts("345WSAD17", 7, 89, "Klocki hamulcowe Brembo - przód");
-		for (Parts parts : Arrays.asList(tmpPart1, tmpPart2, tmpPart3, tmpPart4)) {
-			partsDAO.save(parts);
-			System.out.println("Part "+parts.toString() + " saved into database");
-		}
+//		for (Parts parts : Arrays.asList(tmpPart1, tmpPart2, tmpPart3, tmpPart4)) {
+//			partsDAO.save(parts);
+//			System.out.println("Part "+parts.toString() + " saved into database");
+//		}
+
+//		tmpRepair2.addPart(tmpPart4, 4);
+//		repairDAO.save(tmpRepair2);
 
 
 		tmpCar1.addRepair(tmpRepair1);
@@ -93,6 +96,9 @@ public class AutomobileGarageSystemApplication {
 
 		tmpCar3.addRepair(tmpRepair2);
 		tmpWorker2.addRepair(tmpRepair2);
+		tmpRepair2.addPart(tmpPart4, 4);
+		tmpRepair2.addPart(tmpPart2, 4);
+		tmpRepair2.addPart(tmpPart3, 5);
 		tmpClient2.add(tmpCar3);
 		clientDAO.save(tmpClient2);
 

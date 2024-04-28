@@ -112,15 +112,17 @@ public class RepairServiceImpl implements RepairService{
         List<Parts> updatedParts = repairDTO.getParts();
         updatedParts.forEach((updatedPart -> {
             Parts part = partsDAO.getPartByCatalogNumber(updatedPart.getCatalogNumber());
-            if ( partsInRepairDAO.getAmountOfUsedPartsByRepairIdAndPartId(repair.getId(), part.getId())> updatedPart.getAmount()) {
-                System.out.println("UDALO SIE W KONCU!");
+            PartsInRepair partInRepair = partsInRepairDAO.findPartInRepairByRepairAndPartId(repair.getId(), part.getId());
+            int partsAmountBeforeUpdate = partsInRepairDAO.getAmountOfUsedPartsByRepairIdAndPartId(repair.getId(), part.getId());
+            if ( partsAmountBeforeUpdate > updatedPart.getAmount()) {
+                part.setAmount(part.getAmount() + (partsAmountBeforeUpdate - updatedPart.getAmount()));
+                partInRepair.setAmountOfUsedParts(updatedPart.getAmount());
 
-            } else if ( partsInRepairDAO.getAmountOfUsedPartsByRepairIdAndPartId(repair.getId(), part.getId()) < updatedPart.getAmount()) {
-                System.out.println("UDALO SIE W KONCU ale od innej strony xd!");
+            } else if ( partsAmountBeforeUpdate < updatedPart.getAmount()) {
+                part.setAmount(part.getAmount() - (updatedPart.getAmount() - partsAmountBeforeUpdate));
+                partInRepair.setAmountOfUsedParts(updatedPart.getAmount());
 
             }
-            //repair.addPart(part, updatedPart.getAmount());
-            part.setAmount(part.getAmount()-updatedPart.getAmount());
 
         }));
         repairDAO.update(repair);

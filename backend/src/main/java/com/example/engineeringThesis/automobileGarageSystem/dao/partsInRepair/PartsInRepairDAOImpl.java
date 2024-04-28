@@ -22,4 +22,14 @@ public class PartsInRepairDAOImpl implements PartsInRepairDAO{
         theQuery.setParameter("partId", id2);
         return theQuery.getSingleResult();
     }
+
+    @Override
+    public PartsInRepair findPartInRepairByRepairAndPartId(Integer id1, Integer id2) {
+        TypedQuery<PartsInRepair> theQuery = entityManager.createQuery("SELECT p FROM PartsInRepair p WHERE p.repair.id = :repairId AND p.part.id = :partId", PartsInRepair.class);
+        theQuery.setParameter("repairId", id1);
+        theQuery.setParameter("partId", id2);
+        return theQuery.getSingleResult();
+    }
+
+
 }

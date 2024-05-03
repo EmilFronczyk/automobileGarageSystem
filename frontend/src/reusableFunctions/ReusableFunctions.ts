@@ -1,3 +1,5 @@
+import {CarData, CarToClientData} from "../components/carsPage/CarsPage";
+
 export function stringToColor(string: string) {
     let hash = 0;
     let i;
@@ -28,3 +30,16 @@ export function stringAvatar(name: string) {
         children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
 }
+
+export const removeDuplicateCars = (cars: CarToClientData[] | undefined): CarToClientData[] => {
+    const uniqueCarsMap: Map<string, CarToClientData> = new Map();
+
+    cars?.forEach((car) => {
+        const key = `${car.mark}-${car.model}`;
+        if (!uniqueCarsMap.has(key)) {
+            uniqueCarsMap.set(key, car);
+        }
+    });
+
+    return Array.from(uniqueCarsMap.values());
+};

@@ -62,7 +62,7 @@
     }
 }
 
-.partNameInput, .catalogNumberInput, .priceInput {
+.clientInputEdit, .carInputEdit, .registrationInputEdit {
     margin-bottom: 30px;
     background-color: #b0b0b040;
     border-radius: 15px;
@@ -74,29 +74,60 @@
     display: flex;
 }
 
-.partNameInput:hover, .catalogNumberInput:hover, .priceInput:hover {
+.clientInputEdit:hover, .carInputEdit:hover, .registrationInputEdit:hover {
     background-color: #729eda30;
 }
 
-.amountInput {
+.clientInputAdd, .carInputAdd, .registrationInputAdd {
     margin-bottom: 30px;
-    background-color: #b0b0b040;
-    border-radius: 15px;
+    border-radius: 40px;
     height: 35px;
-    width: 150px;
+    padding: 0 5px;
+    width: 290px;
     margin-left: 35px;
     margin-right: auto;
     display: flex;
-
-    .MuiTextField-root {
-        margin-left: 0 !important;
-
-    }
-
-    #amount {
-        text-align: center;
-    }
 }
+
+.addPartButton {
+    width: 100%;
+    margin-left: 48px;
+}
+
+.carInputAdd {
+    margin-bottom: 0 !important;
+    margin-top: 16px;
+}
+
+.carFormInput {
+    width: 88%;
+}
+
+.registrationFormInput {
+    width: 93%;
+}
+
+.repairStatusInput {
+    margin-bottom: 30px;
+    border-radius: 15px;
+    height: 35px;
+    padding: 0 5px;
+    width: 260px;
+    margin-left: 43px;
+    margin-right: auto;
+    display: flex;
+}
+
+.repairStatusRow {
+    display: flex !important;
+}
+
+.repairStatusIcon {
+    margin-left: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 
 
 #partName-helper-text, #catalogNumber-helper-text, #amountInput-helper-text, #priceInput-helper-text {
@@ -104,7 +135,7 @@
     margin-bottom: -18px !important;
 }
 
-.addPartTextInfo {
+.addRepairTextInfo {
     font-weight: bolder;
     font-size: 25px;
     margin-left: 48px;
@@ -162,4 +193,41 @@
 
 .plusButtonClass:hover, .minusButtonClass:hover {
     background-color: #3184af !important;
+}
+
+.descriptionInput {
+    margin-left: 48px;
+    margin-right: auto;
+    margin-top: -90px;
+    .title {
+        box-sizing: border-box;
+        width: 270px;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.5;
+        padding: 8px 12px;
+        color: black;
+        background: #b0b0b040;
+        border: 1px solid rgba(94, 93, 93, 0.25);
+        border-radius: 18px;
+        box-shadow: 0 2px 2px #b0b0b040;
+        &:hover {
+            border-color: #40A2D8;
+        }
+        &:focus {
+            border-color: #40A2D8;
+        }
+    }
+}
+
+.addingPartsToOneRepair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 400px;
+    width: 700px;
+    background: lightgray;
+    padding-top: 5px;
 }

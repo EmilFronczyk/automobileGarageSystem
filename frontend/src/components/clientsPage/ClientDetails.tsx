@@ -1,5 +1,4 @@
 import Modal from "@mui/material/Modal";
-import {bool} from "yup";
 import {ClientData} from "./ClientsPage";
 import {IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";

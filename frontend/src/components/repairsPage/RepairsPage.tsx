@@ -4,19 +4,17 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
-import {CarFormData} from "../carsPage/CarsPage";
 import HeaderComponent from "../headerComponent/HeaderComponent";
 import TableContainerComponent from "../tableContainer/TableContainerComponent";
 import {Avatar, IconButton, TableCell, TableRow} from "@mui/material";
-import {stringAvatar} from "../../reusableFunctions/ReusableFunctions";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CarDetails, {checkStatus} from "../carsPage/CarsDetails";
 import CustomDialog from "../customDialog/CustomDialog";
-import AddEditCarModal from "../modals/AddEditCarModal";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import AddEditRepairModal from "../modals/AddEditRepairModal";
+import RepairDetail from "./RepairDetail";
 
 export type RepairToCarData = {
     id: number,
@@ -232,9 +230,9 @@ const RepairsPage = () => {
                     Operacja zakończona sukcesem!
                 </Alert>
             </Snackbar>
-            <CarDetails open={carDetailsWindow} onClose={() => setCarDetailsWindow(false)}
+            <RepairDetail open={repairDetailsWindow} onClose={() => setRepairDetailsWindow(false)}
                         title={"Szczegółowe informacje"}
-                        car={carToViewDetails}/>
+                        repair={repairToViewDetails}/>
         </>
     )
 

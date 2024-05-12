@@ -3,17 +3,16 @@ import {Resolver, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import RepairValidation from "../validation/RepairValidation";
 import Modal from "@mui/material/Modal";
-import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
-
 import {
     Box,
-    Button, Checkbox,
+    Button,
+    Checkbox,
     FormControl,
     FormControlLabel,
     IconButton,
     InputLabel,
     MenuItem,
-    Select, TextareaAutosize,
+    Select,
     TextField
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,60 +20,125 @@ import React, {useEffect, useState} from "react";
 import {ClientData} from "../clientsPage/ClientsPage";
 import {removeDuplicateCars} from "../../reusableFunctions/ReusableFunctions";
 import AddPartsToRepair from "./AddPartsToRepair";
+import {PartData} from "../warehousePage/WarehousePage";
+import {WorkerData} from "../workersPage/WorkersPage";
+import {Simulate} from "react-dom/test-utils";
+import {DateField, LocalizationProvider} from "@mui/x-date-pickers";
+import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, {Dayjs} from "dayjs";
 
 type addEditRepairModalProps = {
     open: boolean,
     onClose: () => void,
-    onSubmit: (data: RepairData) => void;
     title: string,
-    data?: RepairData | null
+    data?: RepairData | null,
+    onAdd?: (data: RepairData) => void;
+    onEdit?: (data: RepairData) => void;
 }
-const AddEditRepairModal = ({open, title, onClose, onSubmit, data}: addEditRepairModalProps) => {
+
+const AddEditRepairModal = ({open, title, onClose, data, onAdd, onEdit}: addEditRepairModalProps) => {
 
     const {
-        register, handleSubmit,
-        watch, reset, trigger, setValue, formState: {errors}
-    }
-        = useForm<RepairData>({resolver: yupResolver(RepairValidation()) as unknown as Resolver<RepairData>});
+        register,
+        handleSubmit,
+        trigger,
+        reset,
+        setValue,
+        watch,
+        formState: {errors}
+    } = useForm<RepairData>({resolver: yupResolver(RepairValidation()) as unknown as Resolver<RepairData>});
 
     const [clients, setClients] = useState<ClientData[]>([]);
+    const [workers, setWorkers] = useState<WorkerData[]>([]);
     const [clientName, setClientName] = useState<string>("");
+    const [workerName, setWorkerName] = useState<string>("");
     const [car, setCar] = useState<string>("");
     const [registration, setRegistration] = useState<string>("");
     const [openAddParts, setOpenAddParts] = useState(false);
-    const url = "http://localhost:8080/api/clients/all";
+    const clientsUrl = "http://localhost:8080/api/clients/all";
+    const workersUrl = "http://localhost:8080/api/workers/all";
+    const [partsToSave, setPartsToSave] = useState<PartData[]>([]);
+    const [date, setDate] = useState<Dayjs | null>(null);
 
-    const fetchInfo = async () => {
-        const res = await fetch(url);
+    const fetchClientsInfo = async () => {
+        const res = await fetch(clientsUrl);
         const d = await res.json();
         return setClients(d);
     }
 
+    const fetchWorkersInfo = async () => {
+        const res = await fetch(workersUrl);
+        const d = await res.json();
+        return setWorkers(d);
+    }
+
     useEffect(() => {
-        fetchInfo();
-        reset();
+        fetchClientsInfo();
+        fetchWorkersInfo();
     }, []);
 
-    useEffect(() => {
-        if (clientName !== '') {
-            setValue("client", clientName);
-
+    const onAddRepairSubmit = (formData: RepairData) => {
+        console.log({...formData, parts: partsToSave});
+        if (!!data) {
+            if (onEdit) {
+                onEdit({...formData, parts: partsToSave})
+            }
+        } else {
+            if (onAdd) {
+                onAdd({...formData, parts: partsToSave});
+            }
         }
-    }, [clientName]);
+    }
 
+    useEffect(() => {
+        if (!!data) {
+            setClientName(data.client);
+            setWorkerName(data.worker);
+            setRegistration(data.registration);
+            setCar(data.vehicle);
+            setPartsToSave(data.parts);
+            setDate(dayjs(data.date, "DD/MM/YYYY"))
+            setValue('registration', data.registration);
+            setValue('client', data.client);
+            setValue('vehicle', data.vehicle);
+            setValue('worker', data.worker);
+            setValue('date', data.date);
+        }
+    }, [data]);
 
+    const clearFields = () => {
+        setCar('');
+        setRegistration('');
+        setWorkerName('');
+        setClientName('');
+        setDate(null);
+        setPartsToSave([]);
+        reset();
+    }
 
-    console.log(clients)
+    useEffect(() => {
+        setValue('registration', registration);
+        setValue('client', clientName);
+        setValue('vehicle', car);
+        setValue('worker', workerName);
+        setValue('date', date?.format("DD/MM/YYYY") || '')
+    }, [clientName, workerName, car, registration]);
 
-    return(
+    console.log(data)
+
+    return (
         <>
             <Modal
                 open={open}
-                onClose={onClose}
+                onClose={() => {
+                    onClose();
+                    clearFields();
+                }}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <form className="addRepairWindow" onSubmit={handleSubmit(onSubmit)}>
+                <form className="addRepairWindow" onSubmit={handleSubmit(onAddRepairSubmit)}>
                     <div className="modalTitleContainer">
                         <p className="addRepairTextInfo">
                             {title}
@@ -84,7 +148,6 @@ const AddEditRepairModal = ({open, title, onClose, onSubmit, data}: addEditRepai
                             aria-label="Edit"
                             onClick={() => {
                                 onClose();
-                                reset();
                             }}
                             edge="start"
                             sx={{marginLeft: 2, padding: 0}}
@@ -95,146 +158,169 @@ const AddEditRepairModal = ({open, title, onClose, onSubmit, data}: addEditRepai
                         </IconButton>
                     </div>
                     <div className="addRepairDiv">
-                        {data ? <Box className="clientInputEdit" sx={{display: 'flex', alignItems: 'flex-end'}}>
-                            <TextField id="client" label="Klient"
-                                       variant="standard" InputProps={{
-                                disableUnderline: true
-                            }} {...register("client")} type="tel" defaultValue={data?.client}
-                                       error={!!errors.client}
-                                       helperText={errors.client?.message}
-                                       disabled={!!data}
-                                       required={!!data}
-                                       sx={{marginLeft: 1.5}}/>
-                        </Box> : <Box className="clientInputAdd"
-                                      sx={{display: 'flex'}}>
+                        <Box className="clientInputAddRepair" sx={{display: 'flex'}}>
                             <FormControl className="clientFormInput" required sx={{m: 1, minWidth: 120}}>
                                 <InputLabel className="selectInput"
-                                            id="demo-simple-select-required-label">Klienci</InputLabel>
+                                            id="demo-simple-select-required-label">Klient</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-required-label"
                                     id="demo-simple-select-required"
                                     label="Klienci *"
                                     value={clientName}
+                                    disabled={!!data}
+                                    required
                                     onChange={(event) => {
-                                        setClientName(event.target.value);
-                                        setCar("");
+                                        if (event.target.value) {
+                                            setClientName(event.target.value);
+                                        }
                                     }}
-                                > {clients.map((client) => (
-                                    <MenuItem
-                                        key={client?.id}
-                                        value={!!client ? client.firstName + " " + client.lastName : ""}
-                                    >
-                                        {client ? client.firstName + " " + client.lastName : ""}
-                                    </MenuItem>
-                                ))}
+                                >
+                                    {clients.map((client) => (
+                                        <MenuItem
+                                            key={client?.id}
+                                            value={!!client ? client.firstName + " " + client.lastName : ""}
+                                        >
+                                            {client ? client.firstName + " " + client.lastName : ""}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
-                        </Box>}
+                        </Box>
 
-                        {data ? <Box className="carInputEdit" sx={{display: 'flex', alignItems: 'flex-end'}}>
-                            <TextField id="car" label="Samochody klienta"
-                                       variant="standard" InputProps={{
-                                disableUnderline: true
-                            }} {...register("vehicle")} type="tel" defaultValue={data?.vehicle}
-                                       error={!!errors.vehicle}
-                                       helperText={errors.vehicle?.message}
-                                       disabled={!!data}
-                                       required={!!data}
-                                       sx={{marginLeft: 1.5}}/>
-                        </Box> : <Box className="carInputAdd"
-                                      sx={{display: 'flex', alignItems: 'flex-end'}}>
+                        <Box className="carInputAddRepair" sx={{display: 'flex', alignItems: 'flex-end'}}>
                             <FormControl className="carFormInput" required sx={{m: 1, minWidth: 120}}>
-                                <InputLabel className="selectInput"
-                                            id="demo-simple-select-required-label">Samochody klienta</InputLabel>
+                                <InputLabel className="selectInput" id="demo-simple-select-required-label">Samochód
+                                    klienta</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-required-label"
                                     id="demo-simple-select-required"
                                     label="Samochód klienta*"
-                                    value = {car}
-                                    disabled={
-                                        clientName === ""
-                                    }
-                                    onChange={(event) => setCar(event.target.value)}
-                                > {removeDuplicateCars(clients?.find((client) =>
-                                    client?.firstName + " " + client?.lastName === clientName)?.cars)?.map((car) => (
-                                    <MenuItem
-                                        key={car?.id}
-                                        value={!!car ? car.mark + " " + car.model : ""}
-                                    >
-                                        {car ? car.mark + " " + car.model : ""}
-                                    </MenuItem>
-                                ))}
+                                    value={car}
+                                    disabled={clientName === "" || !!data}
+                                    required
+                                    onChange={(event) => {
+                                        if (event.target.value) {
+                                            setCar(event.target.value);
+
+                                        }
+                                    }}
+                                >
+                                    {removeDuplicateCars(clients?.find((client) =>
+                                        client?.firstName + " " + client?.lastName === clientName)?.cars)?.map((car) => (
+                                        <MenuItem
+                                            key={car?.id}
+                                            value={!!car ? car.mark + " " + car.model : ""}
+                                        >
+                                            {car ? car.mark + " " + car.model : ""}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
-                        </Box>}
+                        </Box>
 
-                        {data ? <Box className="registrationInputEdit" sx={{display: 'flex', alignItems: 'flex-end'}}>
-                            <TextField id="registration" label="Numery rejestracyjne"
-                                       variant="standard" InputProps={{
-                                disableUnderline: true
-                            }} {...register("registration")} defaultValue={data?.registration}
-                                       error={!!errors.registration}
-                                       helperText={errors.registration?.message}
-                                       disabled={!!data}
-                                       required={!!data}
-                                       sx={{marginLeft: 1.5}}/>
-                        </Box> : <Box className="registrationInputAdd"
-                                      sx={{display: 'flex', alignItems: 'flex-end'}}>
+                        <Box className="registrationInputAddRepair" sx={{display: 'flex', alignItems: 'flex-end'}}>
                             <FormControl className="registrationFormInput" required sx={{m: 1, minWidth: 120}}>
+                                <InputLabel className="selectInput" id="demo-simple-select-required-label">Numer
+                                    rejestracyjny</InputLabel>
+                                <Select
+                                    id="demo-simple-select-required"
+                                    label="Numer rejestracyjny*"
+                                    value={registration}
+                                    disabled={car === "" || !!data}
+                                    required
+                                    onChange={(event) => {
+                                        if (event.target.value) {
+                                            setRegistration(event.target.value);
+                                            setValue('registration', event.target.value);
+                                        }
+                                    }}
+                                >
+                                    {clients?.find((client) =>
+                                        client?.firstName + " " + client?.lastName === clientName)?.cars
+                                        .filter((clientsCar) => clientsCar.mark + " " + clientsCar.model === car)
+                                        .map((car) => (
+                                            <MenuItem
+                                                key={car?.id}
+                                                value={!!car ? car.registration : ""}
+                                            >
+                                                {car ? car.registration : ""}
+                                            </MenuItem>
+                                        ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+
+                        <Box className="workerInputAddRepair" sx={{display: 'flex'}}>
+                            <FormControl className="workerFormInput" required sx={{m: 1, minWidth: 120}}>
                                 <InputLabel className="selectInput"
-                                            id="demo-simple-select-required-label">Numery rejestracyjne</InputLabel>
+                                            id="demo-simple-select-required-label">Pracownik</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-required-label"
                                     id="demo-simple-select-required"
-                                    label="Numer rejestracyjny*"
-                                    value = {registration}
-                                    disabled={
-                                        car === ""
-                                    }
-                                    onChange={(event) => setRegistration(event.target.value)}
-                                > {clients?.find((client) =>
-                                    client?.firstName + " " + client?.lastName === clientName)?.cars
-                                    .filter((clientsCar) => clientsCar.mark + " " + clientsCar.model === car)
-                                    .map((car) => (
-                                    <MenuItem
-                                        key={car?.id}
-                                        value={!!car ? car.registration : ""}
-                                    >
-                                        {car ? car.registration : ""}
-                                    </MenuItem>
-                                ))}
+                                    label="Pracownik *"
+                                    value={workerName}
+                                    disabled={!!data}
+                                    required
+                                    onChange={(event) => {
+                                        if (event.target.value) {
+                                            setWorkerName(event.target.value);
+                                        }
+                                    }}
+                                >
+                                    {workers.map((worker) => (
+                                        <MenuItem
+                                            key={worker?.id}
+                                            value={!!worker ? worker.firstName + " " + worker.lastName : ""}
+                                        >
+                                            {worker ? worker.firstName + " " + worker.lastName : ""}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
-                        </Box>}
-
-                        <Box className="repairStatusInput" sx={{display: 'flex', alignItems: 'flex-end', color: '#595858'}}>
+                        </Box>
+                        <Box className="dateInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={['DateField']}>
+                                    <DateField
+                                        label="Data naprawy"
+                                        value={date}
+                                        onChange={(newValue) => setDate(newValue || null)}
+                                        format="DD/MM/YYYY"
+                                        required
+                                    />
+                                </DemoContainer>
+                            </LocalizationProvider>
+                        </Box>
+                        <Box className="repairStatusInput"
+                             sx={{display: 'flex', alignItems: 'flex-end', color: '#595858'}}>
                             <FormControlLabel control={<Checkbox defaultChecked={data?.status}/>}
-                                              label="W naprawie" {...register("status")}/>
+                                              label="W naprawie" {...register("status")} />
                         </Box>
-
-                        <Box className="descriptionInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
-                            <TextareaAutosize className="title" id="title" placeholder="Opis" {...register("title")}  defaultValue={data?.title}/>
+                        <Box className="descriptionRepairInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
+                            <TextField multiline label="Opis" id="outlined-multiline-flexible" maxRows={4}
+                                       variant="standard" InputProps={{disableUnderline: true}}
+                                       {...register("title")} defaultValue={data?.title} error={!!errors.title}
+                                       helperText={errors.title?.message}
+                                       sx={{marginLeft: 1.5, resize: 'vertical', maxHeight: '200px'}}/>
                         </Box>
-
                         <Box className="addPartButton" sx={{display: 'flex', alignItems: 'flex-end'}}>
                             <Button className="submitButton" onClick={() => setOpenAddParts(true)}>
                                 Dodaj części</Button>
                         </Box>
                     </div>
-                    <div className="addWorkerSubmitButtons">
+                    <div className="addRepairSubmitButtons">
                         <Button className="cancelButton" onClick={() => {
                             onClose();
-                            setClientName("");
-                            reset();
+                            clearFields();
                         }}>Anuluj</Button>
-                        <Button className="submitButton" onClick={() => trigger()}
-                                type="submit">Zatwierdź</Button>
+                        <Button className="submitButton" onClick={() => trigger()} type="submit">Zatwierdź</Button>
                     </div>
                 </form>
             </Modal>
-            <AddPartsToRepair open={openAddParts} onClose={() => setOpenAddParts(false)} />
+            <AddPartsToRepair open={openAddParts} onClose={() => setOpenAddParts(false)}
+                              setPartsToSave={setPartsToSave} partsToSave={partsToSave}/>
         </>
     );
 }
 
-export default AddEditRepairModal
+export default AddEditRepairModal;

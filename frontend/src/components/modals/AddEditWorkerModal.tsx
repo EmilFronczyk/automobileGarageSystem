@@ -8,6 +8,10 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import WorkerValidation from "../validation/WorkerValidation";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+import {DateField, LocalizationProvider} from "@mui/x-date-pickers";
+import {Dayjs} from "dayjs";
 
 type addEditWorkerModalProps = {
     open: boolean,
@@ -20,7 +24,7 @@ type addEditWorkerModalProps = {
 const AddEditWorkerModal = ({open, title, onClose, onSubmit, data}: addEditWorkerModalProps) => {
 
     const {
-        register, handleSubmit,
+        register, handleSubmit, setValue,
         watch, reset, trigger, formState: {errors}
     }
         = useForm<WorkerData>({resolver: yupResolver(WorkerValidation()) as unknown as Resolver<WorkerData>});
@@ -28,6 +32,13 @@ const AddEditWorkerModal = ({open, title, onClose, onSubmit, data}: addEditWorke
     useEffect(() => {
         reset();
     }, []);
+
+    const [date, setDate] = useState<Dayjs | null>(null);
+
+    useEffect(() => {
+        setValue('hireDate', date?.format("DD/MM/YYYY") || '');
+    }, [date]);
+
 
     return (
         <Modal
@@ -106,12 +117,17 @@ const AddEditWorkerModal = ({open, title, onClose, onSubmit, data}: addEditWorke
                                    sx={{marginLeft: 1.5}}/>
                     </Box>
                     <Box className="hireDateInput" sx={{display: 'flex', alignItems: 'flex-end'}}>
-                        <TextField id="hireDate" label="Data zatrudnienia"
-                                   variant="standard" InputProps={{
-                            disableUnderline: true
-                        }} {...register("hireDate")} defaultValue={data?.hireDate} error={!!errors.hireDate}
-                                   helperText={errors.hireDate?.message}
-                                   sx={{marginLeft: 1.5}}/>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DateField']}>
+                                <DateField
+                                    label="Data zatrudnienia"
+                                    value={date}
+                                    onChange={(newValue) => setDate(newValue || null)}
+                                    format="DD/MM/YYYY"
+                                    required
+                                />
+                            </DemoContainer>
+                        </LocalizationProvider>
                     </Box>
                 </div>
                 <div className="addWorkerSubmitButtons">

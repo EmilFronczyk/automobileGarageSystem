@@ -49,73 +49,73 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 400px;
+    min-height: 450px;
     width: 700px;
     background: lightgray;
     padding-top: 5px;
+    border-radius: 5px;
+    overflow-y: auto;
 
     .addRepairDiv {
         display: grid;
         grid-template-columns: auto auto;
-        padding: 10px 10px 40px 10px;
-        height: 200px;
+        padding: 10px 10px 40px 40px;
+        min-height: 200px;
     }
 }
 
-.clientInputEdit, .carInputEdit, .registrationInputEdit {
-    margin-bottom: 30px;
+.clientInputAddRepair, .carInputAddRepair, .registrationInputAddRepair, .workerInputAddRepair {
+    width: 250px;
+    margin-bottom: 10px;
+
+    .clientFormInput, .carFormInput, .registrationFormInput, .workerFormInput {
+        width: 100%;
+    }
+}
+
+.dateInput {
     background-color: #b0b0b040;
     border-radius: 15px;
-    height: 35px;
-    padding: 0 5px;
-    width: 260px;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-}
+    height: 38px;
+    width: 235px;
+    margin-left: 6px;
+    margin-top: 6px;
 
-.clientInputEdit:hover, .carInputEdit:hover, .registrationInputEdit:hover {
-    background-color: #729eda30;
-}
+    .MuiFormLabel-root {
+        margin-top: -8px;
+    }
 
-.clientInputAdd, .carInputAdd, .registrationInputAdd {
-    margin-bottom: 30px;
-    border-radius: 40px;
-    height: 35px;
-    padding: 0 5px;
-    width: 290px;
-    margin-left: 35px;
-    margin-right: auto;
-    display: flex;
+    .Mui-focused {
+        margin-top: -8px !important;
+    }
+
+    .MuiInputLabel-shrink {
+        margin-top: -10px !important;
+    }
+
+    .MuiStack-root {
+        padding-top: 22px;
+    }
+
+    .MuiOutlinedInput-input {
+        padding: 8px 15px;
+    }
 }
 
 .addPartButton {
-    width: 100%;
-    margin-left: 48px;
-}
+    position: absolute;
+    bottom: 20px;
+    left: 45px;
 
-.carInputAdd {
-    margin-bottom: 0 !important;
-    margin-top: 16px;
-}
-
-.carFormInput {
-    width: 88%;
-}
-
-.registrationFormInput {
-    width: 93%;
 }
 
 .repairStatusInput {
-    margin-bottom: 30px;
     border-radius: 15px;
     height: 35px;
     padding: 0 5px;
     width: 260px;
-    margin-left: 43px;
-    margin-right: auto;
     display: flex;
+    margin: 6px auto 20px 6px;
 }
 
 .repairStatusRow {
@@ -129,8 +129,7 @@
 }
 
 
-
-#partName-helper-text, #catalogNumber-helper-text, #amountInput-helper-text, #priceInput-helper-text {
+#title-helper-text, #date-helper-text {
     margin-top: -2px !important;
     margin-bottom: -18px !important;
 }
@@ -173,10 +172,7 @@
 
 
     .iconButton {
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: auto;
-        margin-right: 48px;
+        margin: auto 48px auto auto;
         height: fit-content;
     }
 }
@@ -195,39 +191,122 @@
     background-color: #3184af !important;
 }
 
-.descriptionInput {
-    margin-left: 48px;
-    margin-right: auto;
-    margin-top: -90px;
-    .title {
-        box-sizing: border-box;
-        width: 270px;
-        font-family: 'IBM Plex Sans', sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 1.5;
-        padding: 8px 12px;
-        color: black;
-        background: #b0b0b040;
-        border: 1px solid rgba(94, 93, 93, 0.25);
-        border-radius: 18px;
-        box-shadow: 0 2px 2px #b0b0b040;
-        &:hover {
-            border-color: #40A2D8;
-        }
-        &:focus {
-            border-color: #40A2D8;
-        }
+.descriptionRepairInput {
+    box-sizing: border-box;
+    min-height: 35px;
+    width: 235px;
+    margin-left: 6px;
+    color: black;
+    background: #b0b0b040;
+    border-color: transparent;
+    border-radius: 18px;
+    box-shadow: 0 2px 2px #b0b0b040;
+    margin-top: 0;
+
+    .MuiInputBase-root {
+        padding: 0 !important;
+    }
+
+    .MuiFormControl-root {
+        width: 100%;
+    }
+
+    .MuiInputBase-multiline {
+        margin: 6px 0;
+    }
+
+    .MuiFormLabel-root {
+        margin-top: -12px !important;
+    }
+
+
+    &:hover {
+        border-color: #40A2D8;
+    }
+
+    &:focus {
+        border-color: #40A2D8;
     }
 }
 
 .addingPartsToOneRepair {
-    position: absolute;
+    position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 400px;
+    min-height: 450px;
     width: 700px;
     background: lightgray;
     padding-top: 5px;
+}
+
+.MuiOutlinedInput-notchedOutline {
+    border-color: transparent !important;
+}
+
+.Mui-disabled {
+    .MuiOutlinedInput-notchedOutline {
+        background-color: rgba(40, 44, 52, 0.1);
+    }
+}
+
+.partsContainer {
+    overflow: auto;
+    max-height: 195px;
+    width: 93%;
+}
+
+.partsInRepairForm {
+    margin-left: 45px !important;
+}
+
+.selectedParts {
+    margin-left: 45px !important;
+    display: flex;
+    margin-top: 5px;
+    background-color: #ebefef80;
+    width: 85%;
+    padding: 3px 10px;
+    border-radius: 30px;
+
+
+    .amountOfSelectedParts {
+        width: 115px !important;
+        margin-left: auto;
+        margin-bottom: 8px;
+    }
+}
+
+.addPartsToRepairSubmitButtons {
+    justify-content: flex-end;
+    display: flex;
+    margin-top: auto;
+    bottom: 20px;
+    right: 48px;
+    position: absolute;
+}
+
+.addRepairSubmitButtons {
+    bottom: 20px;
+    right: 48px;
+    position: absolute;
+}
+
+.cancelButton {
+    border: 1px solid #40A2D8 !important;
+    margin-right: 8px !important;
+    color: #40A2D8 !important;
+}
+
+.submitButton {
+    background: #40A2D8 !important;
+    color: white !important;
+}
+
+.cancelButton:hover {
+    box-shadow: 0px 0px 15px -5px #40A2D8;
+}
+
+.submitButton:hover {
+    box-shadow: 0px 0px 15px -5px #40A2D8;
 }

@@ -1,0 +1,60 @@
+.repairDetailsModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 400px;
+    width: 700px;
+    background: lightgray;
+    padding-top: 5px;
+    padding-bottom: 20px;
+}
+
+.repairDetailsDiv {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px 50px 10px 50px;
+}
+
+.infoContainer {
+    .title {
+        font-size: 14px;
+        color: #595858;
+    }
+
+    .text {
+        margin-top: -10px;
+        font-size: 18px;
+    }
+}
+
+.statusContainer {
+    display: flex;
+    margin-top: -25px;
+
+    .repairGreen, .repairRed {
+        text-align: left;
+    }
+
+    .statusIcon {
+        margin-top: 15px;
+    }
+}
+
+.repairDetails {
+    display: flex;
+}
+
+.repairGreen {
+    color: green;
+    font-weight: bolder;
+}
+
+.repairRed {
+    color: darkred;
+    font-weight: bolder;
+}
+
+.repairContainer {
+    margin-left: 50px;
+}

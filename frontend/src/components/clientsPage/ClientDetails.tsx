@@ -13,13 +13,14 @@ type ClientDetailsProps = {
     client: ClientData | null
 }
 
-const ClientDetails = ({open, client, title, onClose}: ClientDetailsProps) => {
-    const checkStatus = (status: boolean): string => {
-        if (status) {
-            return "W naprawie";
-        }
-        return "Nie jest w naprawie";
+export const checkStatus = (status: boolean): string => {
+    if (status) {
+        return "W naprawie";
     }
+    return "Nie jest w naprawie";
+}
+
+const ClientDetails = ({open, client, title, onClose}: ClientDetailsProps) => {
 
     return (
         <Modal

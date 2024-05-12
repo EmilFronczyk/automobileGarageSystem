@@ -53,6 +53,7 @@
     width: 700px;
     background: lightgray;
     padding-top: 5px;
+    border-radius: 5px;
 
     .addWorkerDiv {
         display: grid;
@@ -72,6 +73,29 @@
     margin-left: auto;
     margin-right: auto;
     display: flex;
+}
+
+.hireDateInput {
+
+    .MuiFormLabel-root {
+        margin-top: -8px;
+    }
+
+    .Mui-focused {
+        margin-top: -8px !important;
+    }
+
+    .MuiInputLabel-shrink {
+        margin-top: -10px !important;
+    }
+
+    .MuiStack-root {
+        padding-top: 22px;
+    }
+
+    .MuiOutlinedInput-input {
+        padding: 8px 15px;
+    }
 }
 
 .firstNameInput:hover, .lastNameInput:hover, .positionInput:hover, .contactInput:hover, .payRateInput:hover, .hireDateInput:hover {

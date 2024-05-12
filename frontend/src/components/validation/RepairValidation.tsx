@@ -8,20 +8,16 @@ const RepairValidation = () => {
         vehicle: yup
             .string()
             .min(3, "Za mało liter, użyj minimum 3"),
-        worker: yup
-            .string()
-            .min(4, "Za mało liter, użyj minimum 4")
-            .required("Pole jest wymagane"),
         registration: yup
             .string()
             .required("Pole jest wymagane"),
         status: yup
             .boolean()
             .required("Pole jest wymagane"),
-        date: yup
+        title: yup
             .string()
             .required("Pole jest wymagane"),
-        title: yup
+        date: yup
             .string()
             .required("Pole jest wymagane"),
     });

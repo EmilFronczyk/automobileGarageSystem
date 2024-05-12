@@ -53,6 +53,7 @@
     width: 700px;
     background: lightgray;
     padding-top: 5px;
+    border-radius: 5px;
 
     .addPartDiv {
         display: grid;

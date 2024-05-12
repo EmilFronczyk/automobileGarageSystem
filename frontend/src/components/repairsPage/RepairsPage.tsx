@@ -89,9 +89,9 @@ const RepairsPage = () => {
         setRepairIdToDelete(null);
     }
 
-    const onAddClick = async (data: RepairData) => {
-        console.log(data);
-        await fetch(`http://localhost:8080/api/repairs`, {
+    const onAdd = (data: RepairData) => {
+        console.log(data)
+        fetch(`http://localhost:8080/api/repairs`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -105,12 +105,8 @@ const RepairsPage = () => {
         reset();
     }
 
-
-    console.log(repair);
-
-    const onEditSubmit = async (data: RepairData) => {
-        console.log(data)
-        await fetch(`http://localhost:8080/api/repair`, {
+    const onEditSubmit = (data: RepairData) => {
+        fetch(`http://localhost:8080/api/repairs`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -120,11 +116,10 @@ const RepairsPage = () => {
                 client: repair?.client,
                 vehicle: repair?.vehicle,
                 registration: repair?.registration,
-                income: repair?.income,
-                costOfRepair: repair?.costOfRepair,
-                spending: repair?.spending,
                 status: data.status,
-                title: data.title
+                title: data.title,
+                parts: data.parts,
+                date: data.date
             })
         }).then(() => {
             fetchInfo();
@@ -135,6 +130,10 @@ const RepairsPage = () => {
         setRepairIdToEdit(null);
         reset();
     }
+
+    useEffect(() => {
+        setRepair(data?.find((repair) => repair?.id === repairIdToEdit) || null);
+    }, [data, repairIdToEdit]);
 
     useEffect(() => {
         if (repairIdToEdit && repair) {
@@ -148,8 +147,6 @@ const RepairsPage = () => {
             setRepairDetailsWindow(false);
         }
     }, [openEditRepairWindow, openDeleteWindow]);
-
-    console.log(data)
 
     return (
         <>
@@ -214,12 +211,11 @@ const RepairsPage = () => {
                           onSubmit={() => onDeleteClick(repairIdToDelete || 0)} title={"Usunięcie naprawy"}
                           text={"Czy jesteś pewien, że chcesz usunąć tę naprawę"}/>
             <AddEditRepairModal open={openAddRepairWindow} onClose={() => setOpenAddRepairWindow(false)}
-                                onSubmit={onAddClick} title={"Dodanie nowej naprawy"}/>
+                                title={"Dodanie nowej naprawy"} onAdd={onAdd}/>
             <AddEditRepairModal open={openEditRepairWindow} onClose={() => {
                 setOpenEditRepairWindow(false);
                 setRepairIdToEdit(null);
-            }}
-                                onSubmit={onEditSubmit} title={"Edytowanie naprwy"} data={repair}/>
+            }} title={"Edytowanie naprwy"} data={repair} onEdit={onEditSubmit}/>
             <Snackbar open={openAlert} autoHideDuration={6000} onClose={() => setOpenAlert(false)}>
                 <Alert
                     onClose={() => setOpenAlert(false)}
@@ -231,8 +227,8 @@ const RepairsPage = () => {
                 </Alert>
             </Snackbar>
             <RepairDetail open={repairDetailsWindow} onClose={() => setRepairDetailsWindow(false)}
-                        title={"Szczegółowe informacje"}
-                        repair={repairToViewDetails}/>
+                          title={"Szczegółowe informacje"}
+                          repair={repairToViewDetails}/>
         </>
     )
 

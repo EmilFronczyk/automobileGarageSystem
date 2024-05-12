@@ -58,6 +58,7 @@
     width: 700px;
     background: lightgray;
     padding-top: 5px;
+    border-radius: 5px;
 
     .addClientDiv {
         display: grid;

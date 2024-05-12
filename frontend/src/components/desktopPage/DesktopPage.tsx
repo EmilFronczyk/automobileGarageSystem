@@ -83,13 +83,15 @@ const DesktopPage = () => {
         let sum = 0;
         let date = new Date();
         repairsData.forEach((repair) => {
-            const parts = repair.date.split("/"); // Dzielimy string po "/"
-            const day = parseInt(parts[0], 10); // Parsujemy dzień na liczbę całkowitą
-            const month = parseInt(parts[1], 10) - 1; // Parsujemy miesiąc na liczbę całkowitą (odejmujemy 1, ponieważ miesiące w JavaScript są indeksowane od 0)
-            const year = parseInt(parts[2], 10); // Parsujemy rok na liczbę całkowitą
-            const repairDate = new Date(year, month, day);
-            if (repairDate.getMonth() === date.getMonth() && repairDate.getFullYear() === date.getFullYear()) {
-                sum += repair.spending;
+            if (repair.date) {
+                const parts = repair.date.split("/"); // Dzielimy string po "/"
+                const day = parseInt(parts[0], 10); // Parsujemy dzień na liczbę całkowitą
+                const month = parseInt(parts[1], 10) - 1; // Parsujemy miesiąc na liczbę całkowitą (odejmujemy 1, ponieważ miesiące w JavaScript są indeksowane od 0)
+                const year = parseInt(parts[2], 10); // Parsujemy rok na liczbę całkowitą
+                const repairDate = new Date(year, month, day);
+                if (repairDate.getMonth() === date.getMonth() && repairDate.getFullYear() === date.getFullYear()) {
+                    sum += repair.spending;
+                }
             }
         })
         return sum;
@@ -100,13 +102,15 @@ const DesktopPage = () => {
         let sum = 0;
         let date = new Date();
         repairsData.forEach((repair) => {
-            const parts = repair.date.split("/"); // Dzielimy string po "/"
-            const day = parseInt(parts[0], 10); // Parsujemy dzień na liczbę całkowitą
-            const month = parseInt(parts[1], 10) - 1; // Parsujemy miesiąc na liczbę całkowitą (odejmujemy 1, ponieważ miesiące w JavaScript są indeksowane od 0)
-            const year = parseInt(parts[2], 10); // Parsujemy rok na liczbę całkowitą
-            const repairDate = new Date(year, month, day);
-            if (repairDate.getMonth() === date.getMonth() && repairDate.getFullYear() === date.getFullYear()) {
-                sum += repair.income;
+            if (repair.date) {
+                const parts = repair.date.split("/"); // Dzielimy string po "/"
+                const day = parseInt(parts[0], 10); // Parsujemy dzień na liczbę całkowitą
+                const month = parseInt(parts[1], 10) - 1; // Parsujemy miesiąc na liczbę całkowitą (odejmujemy 1, ponieważ miesiące w JavaScript są indeksowane od 0)
+                const year = parseInt(parts[2], 10); // Parsujemy rok na liczbę całkowitą
+                const repairDate = new Date(year, month, day);
+                if (repairDate.getMonth() === date.getMonth() && repairDate.getFullYear() === date.getFullYear()) {
+                    sum += repair.income;
+                }
             }
         })
         return sum;
@@ -277,7 +281,7 @@ const DesktopPage = () => {
                         )}
                     </List>
                 </div>
-                <div className="partsInfoContainer">
+                {partsData.filter(row => row.amount <= 3).length > 0 && <div className="partsInfoContainer">
                     <h2>Lista kończących się części</h2>
                     <List dense={dense}>
                         {partsData.filter(row => row.amount <= 3).map((row) =>
@@ -300,7 +304,7 @@ const DesktopPage = () => {
                             </ListItem>
                         )}
                     </List>
-                </div>
+                </div>}
             </div>
         </div>
     )

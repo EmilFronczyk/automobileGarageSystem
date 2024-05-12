@@ -77,8 +77,9 @@ public class AutomobileGarageSystemApplication {
 
 		Parts tmpPart1 = new Parts("124ABCU12", 78, 89, "Pół ośka lewa");
 		Parts tmpPart2 = new Parts("789XYZA15", 40, 89, "Tarcza hamulcowa Brembo - przód");
-		Parts tmpPart3 = new Parts("456TYUN18", 5, 89, "Wałek rozrządu VAG");
-		Parts tmpPart4 = new Parts("345WSAD17", 7, 89, "Klocki hamulcowe Brembo - przód");
+		Parts tmpPart3 = new Parts("456TYUN18", 50, 89, "Wałek rozrządu VAG");
+		Parts tmpPart4 = new Parts("345WSAD17", 70, 89, "Klocki hamulcowe Brembo - przód");
+		partsDAO.save(tmpPart1);
 //		for (Parts parts : Arrays.asList(tmpPart1, tmpPart2, tmpPart3, tmpPart4)) {
 //			partsDAO.save(parts);
 //			System.out.println("Part "+parts.toString() + " saved into database");

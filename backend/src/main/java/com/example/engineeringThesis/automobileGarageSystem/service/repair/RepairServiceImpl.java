@@ -5,6 +5,7 @@ import com.example.engineeringThesis.automobileGarageSystem.dao.parts.PartsDAO;
 import com.example.engineeringThesis.automobileGarageSystem.dao.partsInRepair.PartsInRepairDAO;
 import com.example.engineeringThesis.automobileGarageSystem.dao.repair.RepairDAO;
 import com.example.engineeringThesis.automobileGarageSystem.dao.worker.WorkerDAO;
+import com.example.engineeringThesis.automobileGarageSystem.dto.PartsDTO;
 import com.example.engineeringThesis.automobileGarageSystem.dto.RepairDTO;
 import com.example.engineeringThesis.automobileGarageSystem.entity.*;
 import com.example.engineeringThesis.automobileGarageSystem.mapper.RepairMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.lang.Math.round;
@@ -60,6 +62,7 @@ public class RepairServiceImpl implements RepairService{
         repairDTO.setClient(carDAO.findClientByCarId(repairDAO.findCarByRepairId(id).getId()).getFirstName() + " "
                                                     + carDAO.findClientByCarId(repairDAO.findCarByRepairId(id).getId()).getLastName());
 
+        System.out.println("getPartsUsedInRepair(repair) w getById" + getPartsUsedInRepair(repair));
         repairDTO.setParts(getPartsUsedInRepair(repair));
         repairDTO.setCostOfRepair(calculateCostOfSingleRepair(repair.getId()));
         repairDTO.setSpending(calculateSpendingFromSingleRepair(repair.getId()));
@@ -96,6 +99,7 @@ public class RepairServiceImpl implements RepairService{
                     repairDTO.setStatus(repair.getCar().isStatus());
                     repairDTO.setClient(repair.getCar().getClient().getFirstName() + " "
                             + repair.getCar().getClient().getLastName());
+                    System.out.println("getPartsUsedInRepair(repair) w getAll" + getPartsUsedInRepair(repair));
                     repairDTO.setParts(getPartsUsedInRepair(repair));
                     repairDTO.setCostOfRepair(calculateCostOfSingleRepair(repair.getId()));
                     repairDTO.setSpending(calculateSpendingFromSingleRepair(repair.getId()));
@@ -108,24 +112,51 @@ public class RepairServiceImpl implements RepairService{
     @Override
     public RepairDTO updateRepair(RepairDTO repairDTO) {
         Repair repair = repairDAO.findById(repairDTO.getId());
+        if (repair == null) {
+            // Obsłuż przypadki, gdy naprawa o podanym identyfikatorze nie istnieje
+            return null;
+        }
+
+        // Aktualizuj informacje o naprawie
+        repair.getCar().setStatus(repairDTO.isStatus());
         repair.setTitle(repairDTO.getTitle());
+        repair.setDate(repairDTO.getDate());
+
+        // Pobierz istniejące powiązania części z naprawą
+        List<PartsInRepair> partsInRepairList = repair.getAmountOfPartsUsed();
+        Map<Integer, PartsInRepair> partsInRepairMap = partsInRepairList.stream()
+                .collect(Collectors.toMap(partsInRepair -> partsInRepair.getPart().getId(), partsInRepair -> partsInRepair));
+
+        // Aktualizuj lub dodawaj nowe części
         List<Parts> updatedParts = repairDTO.getParts();
-        updatedParts.forEach((updatedPart -> {
+        for (Parts updatedPart : updatedParts) {
             Parts part = partsDAO.getPartByCatalogNumber(updatedPart.getCatalogNumber());
-            PartsInRepair partInRepair = partsInRepairDAO.findPartInRepairByRepairAndPartId(repair.getId(), part.getId());
-            int partsAmountBeforeUpdate = partsInRepairDAO.getAmountOfUsedPartsByRepairIdAndPartId(repair.getId(), part.getId());
-            if ( partsAmountBeforeUpdate > updatedPart.getAmount()) {
-                part.setAmount(part.getAmount() + (partsAmountBeforeUpdate - updatedPart.getAmount()));
-                partInRepair.setAmountOfUsedParts(updatedPart.getAmount());
-
-            } else if ( partsAmountBeforeUpdate < updatedPart.getAmount()) {
-                part.setAmount(part.getAmount() - (updatedPart.getAmount() - partsAmountBeforeUpdate));
-                partInRepair.setAmountOfUsedParts(updatedPart.getAmount());
-
+            if (part == null) {
+                // Obsłuż przypadki, gdy część nie istnieje w bazie danych
+                // Tutaj możesz dodać nową część do bazy danych lub zignorować tę część, zależnie od logiki biznesowej
+                continue;
             }
 
-        }));
+            // Sprawdź, czy część jest już powiązana z naprawą
+            PartsInRepair partInRepair = partsInRepairMap.get(part.getId());
+            if (partInRepair == null) {
+                // Jeśli część nie jest jeszcze powiązana z naprawą, dodaj ją
+                repair.addPart(part, updatedPart.getAmount());
+            } else {
+                // Jeśli część jest już powiązana z naprawą, zaktualizuj jej ilość
+                int partsAmountBeforeUpdate = partInRepair.getAmountOfUsedParts();
+                if (partsAmountBeforeUpdate > updatedPart.getAmount()) {
+                    part.setAmount(part.getAmount() + (partsAmountBeforeUpdate - updatedPart.getAmount()));
+                } else if (partsAmountBeforeUpdate < updatedPart.getAmount()) {
+                    part.setAmount(part.getAmount() - (updatedPart.getAmount() - partsAmountBeforeUpdate));
+                }
+                partInRepair.setAmountOfUsedParts(updatedPart.getAmount());
+            }
+        }
+
+        // Aktualizuj naprawę w bazie danych
         repairDAO.update(repair);
+
         return repairDTO;
 
     }

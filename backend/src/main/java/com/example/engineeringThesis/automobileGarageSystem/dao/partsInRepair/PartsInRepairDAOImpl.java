@@ -2,9 +2,11 @@ package com.example.engineeringThesis.automobileGarageSystem.dao.partsInRepair;
 
 import com.example.engineeringThesis.automobileGarageSystem.entity.PartsInRepair;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Transient;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class PartsInRepairDAOImpl implements PartsInRepairDAO{
@@ -29,6 +31,12 @@ public class PartsInRepairDAOImpl implements PartsInRepairDAO{
         theQuery.setParameter("repairId", id1);
         theQuery.setParameter("partId", id2);
         return theQuery.getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public void save(PartsInRepair partInRepair) {
+        entityManager.persist(partInRepair);
     }
 
 
